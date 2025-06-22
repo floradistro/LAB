@@ -437,7 +437,7 @@ export default function Services() {
               Submit Sample
             </Link>
             <button 
-              onClick={() => document.getElementById('packages')?.scrollIntoView({ behavior: 'smooth' })}
+              onClick={() => document.getElementById('packages')?.scrollIntoView()}
               className="apple-button-secondary w-full sm:w-auto"
             >
               View Pricing

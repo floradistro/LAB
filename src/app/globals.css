@@ -29,9 +29,33 @@
   box-sizing: border-box;
 }
 
+/* Optimize scroll performance */
+* {
+  will-change: auto;
+}
+
+/* Prevent layout thrashing */
+img, video {
+  max-width: 100%;
+  height: auto;
+}
+
+/* Optimize animations for performance */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}
+
 html {
-  scroll-behavior: smooth;
   overflow-y: scroll;
+  /* Improve scroll performance */
+  scroll-behavior: auto;
+  -webkit-scroll-behavior: auto;
 }
 
 body {
@@ -43,6 +67,9 @@ body {
   line-height: 1.4;
   font-weight: 400;
   letter-spacing: -0.022em;
+  /* Improve scroll performance */
+  -webkit-overflow-scrolling: touch;
+  overscroll-behavior: contain;
 }
 
 /* Professional card styles */
@@ -50,22 +77,21 @@ body {
   background: white;
   border: 1px solid rgba(0, 0, 0, 0.06);
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
-  transition: all 0.3s ease;
+  transition: box-shadow 0.2s ease;
 }
 
 .pro-card:hover {
-  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.08);
-  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
 }
 
 /* Mobile card styles */
 @media (max-width: 640px) {
   .pro-card {
     box-shadow: 0 1px 4px rgba(0, 0, 0, 0.04);
+    transition: none;
   }
   
   .pro-card:hover {
-    transform: none;
     box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
   }
 }
@@ -82,19 +108,9 @@ body {
 @media (max-width: 768px) {
   .gradient-mesh {
     background-image: 
-      radial-gradient(at 50% 0%, hsla(220, 90%, 94%, 0.5) 0px, transparent 40%),
-      radial-gradient(at 0% 20%, hsla(189, 90%, 93%, 0.4) 0px, transparent 50%),
-      radial-gradient(at 100% 60%, hsla(355, 80%, 94%, 0.3) 0px, transparent 50%),
-      radial-gradient(at 50% 100%, hsla(240, 80%, 96%, 0.2) 0px, transparent 60%);
-    background-size: 200% 200%;
-    animation: subtleGradientShift 20s ease infinite;
+      radial-gradient(at 50% 0%, hsla(220, 90%, 94%, 0.3) 0px, transparent 40%),
+      radial-gradient(at 0% 20%, hsla(189, 90%, 93%, 0.2) 0px, transparent 50%);
   }
-}
-
-@keyframes subtleGradientShift {
-  0% { background-position: 0% 50%; }
-  50% { background-position: 100% 50%; }
-  100% { background-position: 0% 50%; }
 }
 
 .gradient-subtle {
@@ -149,10 +165,17 @@ body {
 
 /* Glassmorphism effect */
 .glass-effect {
-  background: rgba(255, 255, 255, 0.7);
-  backdrop-filter: blur(10px);
-  -webkit-backdrop-filter: blur(10px);
+  background: rgba(255, 255, 255, 0.95);
   border: 1px solid rgba(255, 255, 255, 0.3);
+}
+
+/* Only apply backdrop filter on desktop */
+@media (min-width: 768px) {
+  .glass-effect {
+    background: rgba(255, 255, 255, 0.7);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+  }
 }
 
 /* Apple buttons with mobile optimization */
@@ -196,14 +219,16 @@ body {
   height: 300px;
 }
 
-.apple-button:hover {
-  background: var(--blue-hover);
-  transform: translateY(-1px);
-  box-shadow: 0 4px 16px rgba(0, 122, 255, 0.25);
+@media (min-width: 768px) {
+  .apple-button:hover {
+    background: var(--blue-hover);
+    transform: translateY(-1px);
+    box-shadow: 0 4px 16px rgba(0, 122, 255, 0.25);
+  }
 }
 
 .apple-button:active {
-  transform: translateY(0);
+  transform: scale(0.98);
   box-shadow: 0 2px 4px rgba(0, 122, 255, 0.2);
 }
 
@@ -226,14 +251,16 @@ body {
   touch-action: manipulation;
 }
 
-.apple-button-secondary:hover {
-  background: var(--blue);
-  color: white;
-  transform: translateY(-1px);
+@media (min-width: 768px) {
+  .apple-button-secondary:hover {
+    background: var(--blue);
+    color: white;
+    transform: translateY(-1px);
+  }
 }
 
 .apple-button-secondary:active {
-  transform: translateY(0);
+  transform: scale(0.98);
 }
 
 /* Mobile button styles */
@@ -383,6 +410,29 @@ body {
 
 .mobile-scroll-x::-webkit-scrollbar {
   display: none;
+}
+
+/* Optimize mobile scrolling */
+@media (max-width: 768px) {
+  body {
+    /* Prevent momentum scrolling issues */
+    position: relative;
+    overflow-x: hidden;
+  }
+  
+  /* Disable transforms on mobile for better scroll performance */
+  .pro-card,
+  .apple-button,
+  .apple-button-secondary {
+    transform: none !important;
+    transition: none !important;
+  }
+  
+  /* Reduce animations on mobile */
+  .fade-in,
+  .slide-up {
+    animation: none !important;
+  }
 }
 
 /* Improved mobile spacing */
