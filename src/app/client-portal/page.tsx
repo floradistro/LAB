@@ -2,9 +2,12 @@
 
 import Image from "next/image";
 import Link from "next/link";
-import { useState } from "react";
+import { useState, useEffect } from "react";
+
 
 export default function ClientPortal() {
+  console.log("ClientPortal component rendering");
+  const [mounted, setMounted] = useState(false);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [isLogin, setIsLogin] = useState(true);
   const [email, setEmail] = useState("");
@@ -17,6 +20,11 @@ export default function ClientPortal() {
   const [loginError, setLoginError] = useState("");
   const [activeTab, setActiveTab] = useState("samples");
   const [expandedSamples, setExpandedSamples] = useState<Set<string>>(new Set());
+
+  useEffect(() => {
+    console.log("ClientPortal mounting");
+    setMounted(true);
+  }, []);
 
   const toggleSampleExpansion = (sampleId: string) => {
     const newExpanded = new Set(expandedSamples);
@@ -104,41 +112,47 @@ export default function ClientPortal() {
             </div>
             
             {/* Stats Overview */}
-            <div className="grid grid-cols-4 gap-3 mb-4">
-              <div className="bg-white rounded-lg p-3 border border-gray-200">
-                <div className="text-xl font-light text-gray-900 mb-0.5">12</div>
+            <div className="grid grid-cols-4 gap-4 mb-6">
+              <div className="pro-card rounded-xl p-4 text-center">
+                <div className="text-3xl font-light text-gray-900 mb-1 animate-number">12</div>
                 <div className="text-xs text-gray-600">Total Samples</div>
               </div>
-              <div className="bg-white rounded-lg p-3 border border-gray-200">
-                <div className="text-xl font-light text-green-600 mb-0.5">9</div>
+              <div className="pro-card rounded-xl p-4 text-center">
+                <div className="text-3xl font-light text-green-600 mb-1 animate-number">9</div>
                 <div className="text-xs text-gray-600">Completed</div>
               </div>
-              <div className="bg-white rounded-lg p-3 border border-gray-200">
-                <div className="text-xl font-light text-orange-500 mb-0.5">2</div>
+              <div className="pro-card rounded-xl p-4 text-center">
+                <div className="text-3xl font-light text-orange-500 mb-1 animate-number">2</div>
                 <div className="text-xs text-gray-600">In Progress</div>
               </div>
-              <div className="bg-white rounded-lg p-3 border border-gray-200">
-                <div className="text-xl font-light text-blue-600 mb-0.5">1</div>
+              <div className="pro-card rounded-xl p-4 text-center">
+                <div className="text-3xl font-light text-blue-600 mb-1 animate-number">1</div>
                 <div className="text-xs text-gray-600">Pending</div>
               </div>
             </div>
 
             {/* Sample Results */}
-            <div className="bg-white rounded-lg border border-gray-200">
-              <div className="px-4 py-3 border-b border-gray-200">
-                <h3 className="text-base font-medium text-gray-900">Recent Results</h3>
+            <div className="pro-card rounded-xl">
+              <div className="px-6 py-4 border-b border-gray-100">
+                <div className="flex items-center justify-between">
+                  <h3 className="text-lg font-medium text-gray-900">Recent Results</h3>
+                  <div className="flex items-center text-xs text-gray-500">
+                    <span className="w-2 h-2 bg-green-500 rounded-full mr-2 pulse-green"></span>
+                    Live Updates
+                  </div>
+                </div>
               </div>
               <div className="divide-y divide-gray-100">
                 {mockSamples.map((sample) => (
-                  <div key={sample.id} className="p-3 hover:bg-gray-50 transition-colors">
+                  <div key={sample.id} className="p-4 hover:bg-gray-50 transition-colors">
                     {/* Compact Row */}
                     <div className="flex items-center justify-between">
                       <div className="flex items-center space-x-3 flex-1 min-w-0">
                         <button
                           onClick={() => toggleSampleExpansion(sample.id)}
-                          className="flex-shrink-0 w-5 h-5 flex items-center justify-center text-gray-400 hover:text-gray-600 transition-colors"
+                          className="flex-shrink-0 w-6 h-6 flex items-center justify-center text-gray-400 hover:text-gray-600 transition-colors rounded-lg hover:bg-gray-100"
                         >
-                          <svg className={`w-3 h-3 transition-transform ${expandedSamples.has(sample.id) ? 'rotate-90' : ''}`} fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                          <svg className={`w-4 h-4 transition-transform ${expandedSamples.has(sample.id) ? 'rotate-90' : ''}`} fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
                           </svg>
                         </button>
@@ -146,7 +160,7 @@ export default function ClientPortal() {
                         <div className="flex-1 min-w-0">
                           <h4 className="text-sm font-medium text-gray-900 truncate">{sample.name}</h4>
                           <div className="flex items-center space-x-2 text-xs text-gray-500 mt-0.5">
-                            <span>{sample.id}</span>
+                            <span className="font-mono">{sample.id}</span>
                             <span>•</span>
                             <span>{sample.type}</span>
                             <span>•</span>
@@ -155,26 +169,35 @@ export default function ClientPortal() {
                         </div>
                         
                         {sample.status === 'Complete' && (
-                          <div className="flex items-center space-x-3 text-xs">
-                            <span className="text-gray-600">THC: <span className="font-medium text-gray-900">{sample.thc}</span></span>
-                            <span className="text-gray-600">CBD: <span className="font-medium text-gray-900">{sample.cbd}</span></span>
+                          <div className="flex items-center space-x-4 text-sm">
+                            <div className="text-center">
+                              <div className="text-xs text-gray-500">THC</div>
+                              <div className="font-semibold text-gray-900">{sample.thc}</div>
+                            </div>
+                            <div className="text-center">
+                              <div className="text-xs text-gray-500">CBD</div>
+                              <div className="font-semibold text-gray-900">{sample.cbd}</div>
+                            </div>
                           </div>
                         )}
                       </div>
                       
-                      <div className="flex items-center space-x-2 ml-3">
-                        <span className={`inline-flex px-2 py-0.5 text-xs font-medium rounded-full ${
+                      <div className="flex items-center space-x-3 ml-4">
+                        <span className={`status-badge ${
                           sample.status === 'Complete' 
-                            ? 'bg-green-100 text-green-700'
+                            ? 'status-complete'
                             : sample.status === 'In Progress'
-                            ? 'bg-orange-100 text-orange-700'
-                            : 'bg-gray-100 text-gray-700'
+                            ? 'status-processing'
+                            : 'status-pending'
                         }`}>
                           {sample.status}
                         </span>
                         
                         {sample.status === 'Complete' && (
-                          <button className="apple-button px-2 py-1 text-xs">
+                          <button className="apple-button px-3 py-1.5 text-xs">
+                            <svg className="w-3 h-3 inline mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
+                            </svg>
                             COA
                           </button>
                         )}
@@ -183,54 +206,68 @@ export default function ClientPortal() {
                     
                     {/* Expandable Details */}
                     {expandedSamples.has(sample.id) && (
-                      <div className="mt-3 pl-8 border-l-2 border-gray-100">
-                        <div className="space-y-2">
-                          <div className="grid grid-cols-2 gap-4 text-xs">
-                            <div>
-                              <span className="text-gray-500">Sample ID:</span>
-                              <span className="ml-1 font-medium">{sample.id}</span>
+                      <div className="mt-4 pl-9 border-l-2 border-gray-100">
+                        <div className="space-y-4">
+                          <div className="grid grid-cols-2 gap-4">
+                            <div className="pro-card rounded-lg p-3">
+                              <div className="text-xs text-gray-500 mb-1">Sample Details</div>
+                              <div className="space-y-1">
+                                <div className="flex justify-between text-sm">
+                                  <span className="text-gray-600">ID:</span>
+                                  <span className="font-mono font-medium">{sample.id}</span>
+                                </div>
+                                <div className="flex justify-between text-sm">
+                                  <span className="text-gray-600">Type:</span>
+                                  <span className="font-medium">{sample.type}</span>
+                                </div>
+                                <div className="flex justify-between text-sm">
+                                  <span className="text-gray-600">Submitted:</span>
+                                  <span className="font-medium">{sample.submitted}</span>
+                                </div>
+                              </div>
                             </div>
-                            <div>
-                              <span className="text-gray-500">Type:</span>
-                              <span className="ml-1 font-medium">{sample.type}</span>
-                            </div>
-                            <div>
-                              <span className="text-gray-500">Submitted:</span>
-                              <span className="ml-1 font-medium">{sample.submitted}</span>
-                            </div>
-                            <div>
-                              <span className="text-gray-500">Status:</span>
-                              <span className="ml-1 font-medium">{sample.status}</span>
-                            </div>
+                            
+                            {sample.status === 'Complete' && (
+                              <div className="pro-card rounded-lg p-3">
+                                <div className="text-xs text-gray-500 mb-1">Test Results</div>
+                                <div className="grid grid-cols-2 gap-2">
+                                  <div className="text-center p-2 bg-green-50 rounded">
+                                    <div className="text-xs text-gray-600">THC</div>
+                                    <div className="text-lg font-semibold text-gray-900">{sample.thc}</div>
+                                  </div>
+                                  <div className="text-center p-2 bg-blue-50 rounded">
+                                    <div className="text-xs text-gray-600">CBD</div>
+                                    <div className="text-lg font-semibold text-gray-900">{sample.cbd}</div>
+                                  </div>
+                                </div>
+                              </div>
+                            )}
                           </div>
                           
                           {sample.status === 'Complete' && (
-                            <div className="mt-3 pt-2 border-t border-gray-100">
-                              <h5 className="text-xs font-medium text-gray-900 mb-2">Test Results</h5>
-                              <div className="grid grid-cols-2 gap-3 text-xs">
-                                <div className="bg-gray-50 rounded p-2">
-                                  <div className="text-gray-500">THC Content</div>
-                                  <div className="font-semibold text-gray-900">{sample.thc}</div>
-                                </div>
-                                <div className="bg-gray-50 rounded p-2">
-                                  <div className="text-gray-500">CBD Content</div>
-                                  <div className="font-semibold text-gray-900">{sample.cbd}</div>
-                                </div>
-                              </div>
-                              <div className="mt-2 flex space-x-2">
-                                <button className="apple-button px-3 py-1 text-xs">
-                                  Download Full COA
-                                </button>
-                                <button className="apple-button-secondary px-3 py-1 text-xs">
-                                  View Details
-                                </button>
-                              </div>
+                            <div className="flex space-x-2">
+                              <button className="apple-button px-4 py-2 text-xs">
+                                <svg className="w-4 h-4 inline mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
+                                </svg>
+                                Download Full COA
+                              </button>
+                              <button className="apple-button-secondary px-4 py-2 text-xs">
+                                View Details
+                              </button>
                             </div>
                           )}
                           
                           {sample.status === 'In Progress' && (
-                            <div className="mt-2 text-xs text-gray-500">
-                              Your sample is currently being processed. Results typically available within 3-5 business days.
+                            <div className="bg-blue-50 rounded-lg p-3">
+                              <div className="flex items-start">
+                                <svg className="w-4 h-4 text-blue-600 mr-2 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+                                </svg>
+                                <div className="text-sm text-blue-700">
+                                  Your sample is currently being processed. Results typically available within 3-5 business days.
+                                </div>
+                              </div>
                             </div>
                           )}
                         </div>
@@ -281,6 +318,7 @@ export default function ClientPortal() {
           </div>
         );
       
+
       case "account":
         return (
           <div>
@@ -332,35 +370,46 @@ export default function ClientPortal() {
     }
   };
 
+  if (!mounted) {
+    console.log("ClientPortal not mounted yet, showing loading");
+    return (
+      <div className="min-h-screen bg-white flex items-center justify-center">
+        <div className="animate-pulse">
+          <div className="w-12 h-12 bg-gray-300 rounded-full mb-4"></div>
+          <div className="text-gray-600">Loading...</div>
+        </div>
+      </div>
+    );
+  }
+
+  console.log("ClientPortal mounted, isLoggedIn:", isLoggedIn);
+
   if (isLoggedIn) {
     return (
       <div className="min-h-screen bg-gray-100">
         {/* Main Navigation Bar */}
-        <nav className="bg-white/80 backdrop-blur-md border-b border-gray-200/50 sticky top-0 z-50">
+        <nav className="bg-white/80 backdrop-blur-md border-b border-gray-200/50 sticky top-0 z-50 glass-effect">
           <div className="max-w-6xl mx-auto px-4">
-            <div className="flex justify-between items-center h-9">
+            <div className="flex items-center h-9 relative">
               <Link href="/" className="flex items-center space-x-2">
                 <Image
                   src="/quantixlogo.png"
-                  alt="Quantix Research Logo"
+                  alt="Quantix Logo"
                   width={24}
                   height={24}
                   className="w-6 h-6"
                 />
-                <h1 className="text-sm font-semibold text-gray-900 tracking-tight">
-                  Quantix Research
-                </h1>
               </Link>
               
-              {/* Desktop Navigation */}
-              <div className="hidden md:flex items-center space-x-4">
-                <Link href="/" className="text-xs text-gray-600 hover:text-gray-900 transition-colors">
+              {/* Desktop Navigation - Centered */}
+              <div className="hidden md:flex items-center space-x-6 absolute left-1/2 transform -translate-x-1/2">
+                <Link href="/" className="text-xs text-gray-600 hover:text-gray-900 transition-colors font-medium">
                   Home
                 </Link>
-                <Link href="/about" className="text-xs text-gray-600 hover:text-gray-900 transition-colors">
+                <Link href="/about" className="text-xs text-gray-600 hover:text-gray-900 transition-colors font-medium">
                   About
                 </Link>
-                <Link href="/services" className="text-xs text-gray-600 hover:text-gray-900 transition-colors">
+                <Link href="/services" className="text-xs text-gray-600 hover:text-gray-900 transition-colors font-medium">
                   Services
                 </Link>
                 <Link href="/client-portal" className="text-xs text-gray-900 font-medium">
@@ -368,8 +417,11 @@ export default function ClientPortal() {
                 </Link>
               </div>
 
-              {/* User Info & Sign Out */}
-              <div className="flex items-center space-x-3">
+              {/* Right Side - Fixed Width Container */}
+              <div className="hidden md:flex ml-auto w-64 justify-end items-center space-x-3">
+                <Link href="/submit-sample" className="apple-button">
+                  Submit Sample
+                </Link>
                 <span className="text-xs text-gray-600">{userData.name}</span>
                 <button
                   onClick={() => setIsLoggedIn(false)}
@@ -423,36 +475,40 @@ export default function ClientPortal() {
   return (
     <div className="min-h-screen bg-white">
       {/* Navigation Bar */}
-      <nav className="bg-white/80 backdrop-blur-md border-b border-gray-200/50 sticky top-0 z-50">
+      <nav className="bg-white/80 backdrop-blur-md border-b border-gray-200/50 sticky top-0 z-50 glass-effect">
         <div className="max-w-6xl mx-auto px-4">
-          <div className="flex justify-between items-center h-9">
+          <div className="flex items-center h-9 relative">
             <Link href="/" className="flex items-center space-x-2">
               <Image
                 src="/quantixlogo.png"
-                alt="Quantix Research Logo"
+                alt="Quantix Logo"
                 width={24}
                 height={24}
                 className="w-6 h-6"
               />
-              <h1 className="text-sm font-semibold text-gray-900 tracking-tight">
-                Quantix Research
-              </h1>
             </Link>
             
-            {/* Desktop Navigation */}
-            <div className="hidden md:flex items-center space-x-4">
-              <Link href="/" className="text-xs text-gray-600 hover:text-gray-900 transition-colors">
+            {/* Desktop Navigation - Centered */}
+            <div className="hidden md:flex items-center space-x-6 absolute left-1/2 transform -translate-x-1/2">
+              <Link href="/" className="text-xs text-gray-600 hover:text-gray-900 transition-colors font-medium">
                 Home
               </Link>
-              <Link href="/about" className="text-xs text-gray-600 hover:text-gray-900 transition-colors">
+              <Link href="/about" className="text-xs text-gray-600 hover:text-gray-900 transition-colors font-medium">
                 About
               </Link>
-              <Link href="/services" className="text-xs text-gray-600 hover:text-gray-900 transition-colors">
+              <Link href="/services" className="text-xs text-gray-600 hover:text-gray-900 transition-colors font-medium">
                 Services
               </Link>
-              <span className="text-xs text-gray-900 font-medium">
+              <Link href="/client-portal" className="text-xs text-gray-900 font-medium">
                 Client Portal
-              </span>
+              </Link>
+            </div>
+
+            {/* Submit Sample Button - Right Side */}
+            <div className="hidden md:flex ml-auto w-64 justify-end">
+              <Link href="/submit-sample" className="apple-button">
+                Submit Sample
+              </Link>
             </div>
 
             {/* Mobile Menu Button */}
@@ -505,15 +561,32 @@ export default function ClientPortal() {
         </div>
       </nav>
 
-      <div className="max-w-7xl mx-auto px-4 py-6">
-        <div className="grid lg:grid-cols-5 gap-8 items-start">
+      <div className="max-w-md mx-auto px-4 py-6">
+        <div className="flex justify-center">
           {/* Login/Register Form */}
-          <div className="lg:col-span-2 max-w-md mx-auto lg:mx-0">
+          <div className="w-full">
             <div className="bg-white rounded-2xl shadow-xl border border-gray-100 p-5 sticky top-20">
-              <div className="text-center mb-5">
-                <h1 className="text-lg font-semibold text-gray-900 tracking-tight mb-1.5">
-                  {isLogin ? "Welcome back" : "Create your account"}
+              {/* Logo and Brand */}
+              <div className="flex items-center justify-center mb-6 fade-in -space-x-1">
+                <div className="relative">
+                  <div className="absolute inset-0 bg-blue-500 rounded-full blur-xl opacity-20 animate-pulse"></div>
+                  <Image
+                    src="/quantixlogo.png"
+                    alt="Quantix Logo"
+                    width={48}
+                    height={48}
+                    className="w-12 h-12 relative z-10 drop-shadow-lg"
+                  />
+                </div>
+                <h1 className="text-3xl font-bold text-gray-900 tracking-tight">
+                  Quantix
                 </h1>
+              </div>
+              
+              <div className="text-center mb-5">
+                <h2 className="text-lg font-semibold text-gray-900 tracking-tight mb-1.5">
+                  {isLogin ? "Welcome back" : "Create your account"}
+                </h2>
                 <p className="text-[11px] text-gray-600 font-light">
                   {isLogin 
                     ? "Sign in to access your testing results and submit new samples" 
@@ -657,147 +730,46 @@ export default function ClientPortal() {
             </div>
           </div>
 
-          {/* How It Works Section */}
-          <div className="lg:col-span-3">
-            <div className="mb-6">
-              <h2 className="text-xl font-semibold text-gray-900 tracking-tight mb-2">
-                How It Works
-              </h2>
-              <p className="text-gray-600 text-xs font-light leading-relaxed">
-                Streamlined cannabis testing for large-scale operations.
-              </p>
-            </div>
 
-            {/* Compact 4-Step Process */}
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-6">
-              {/* Step 1: Register */}
-              <div className="bg-gradient-to-br from-blue-50 to-blue-100 rounded-xl p-4 border border-blue-200 hover:shadow-md transition-all group">
-                <div className="flex items-center mb-3">
-                  <div className="w-8 h-8 bg-blue-600 rounded-full flex items-center justify-center mr-3">
-                    <span className="text-white text-sm font-bold">1</span>
-                  </div>
-                  <h3 className="text-base font-semibold text-gray-900 tracking-tight">
-                    Register Account
-                  </h3>
-                </div>
-                <p className="text-xs text-gray-700 mb-2 leading-relaxed">
-                  Quick setup with company info, business license, and billing details.
-                </p>
-                <div className="text-xs text-blue-700 font-medium">
-                  ✓ Secure portal access ✓ Sample tracking ✓ Compliance docs
-                </div>
-              </div>
-
-              {/* Step 2: Prepare Sample */}
-              <div className="bg-gradient-to-br from-green-50 to-green-100 rounded-xl p-4 border border-green-200 hover:shadow-md transition-all group">
-                <div className="flex items-center mb-3">
-                  <div className="w-8 h-8 bg-green-600 rounded-full flex items-center justify-center mr-3">
-                    <span className="text-white text-sm font-bold">2</span>
-                  </div>
-                  <h3 className="text-base font-semibold text-gray-900 tracking-tight">
-                    Prepare Sample
-                  </h3>
-                </div>
-                <p className="text-xs text-gray-700 mb-2 leading-relaxed">
-                  3-5g flower, 1g concentrates. Proper labeling & chain of custody.
-                </p>
-                <div className="text-xs text-green-700 font-medium">
-                  ✓ Temperature controlled ✓ Batch tracking ✓ Guidelines provided
-                </div>
-              </div>
-
-              {/* Step 3: Submit Sample */}
-              <div className="bg-gradient-to-br from-purple-50 to-purple-100 rounded-xl p-4 border border-purple-200 hover:shadow-md transition-all group">
-                <div className="flex items-center mb-3">
-                  <div className="w-8 h-8 bg-purple-600 rounded-full flex items-center justify-center mr-3">
-                    <span className="text-white text-sm font-bold">3</span>
-                  </div>
-                  <h3 className="text-base font-semibold text-gray-900 tracking-tight">
-                    Submit Sample
-                  </h3>
-                </div>
-                <p className="text-xs text-gray-700 mb-2 leading-relaxed">
-                  Drop-off in Charlotte (8AM-6PM) or schedule pickup service.
-                </p>
-                <div className="text-xs text-purple-700 font-medium">
-                  ✓ Online forms ✓ Digital upload ✓ Status tracking
-                </div>
-              </div>
-
-              {/* Step 4: Receive Results */}
-              <div className="bg-gradient-to-br from-orange-50 to-orange-100 rounded-xl p-4 border border-orange-200 hover:shadow-md transition-all group">
-                <div className="flex items-center mb-3">
-                  <div className="w-8 h-8 bg-orange-600 rounded-full flex items-center justify-center mr-3">
-                    <span className="text-white text-sm font-bold">4</span>
-                  </div>
-                  <h3 className="text-base font-semibold text-gray-900 tracking-tight">
-                    Get Results
-                  </h3>
-                </div>
-                <p className="text-xs text-gray-700 mb-2 leading-relaxed">
-                  <span className="font-semibold">24-48 hour</span> turnaround with instant notifications.
-                </p>
-                <div className="text-xs text-orange-700 font-medium">
-                  ✓ Download COAs ✓ 24/7 portal ✓ Historical data
-                </div>
-              </div>
-            </div>
-
-            {/* Key Features Grid */}
-            <div className="grid grid-cols-2 gap-3 mb-6">
-              <div className="bg-gray-50 rounded-lg p-3 text-center">
-                <div className="text-lg font-bold text-gray-900 mb-1">24-48hrs</div>
-                <div className="text-xs text-gray-600">Average Turnaround</div>
-              </div>
-              <div className="bg-gray-50 rounded-lg p-3 text-center">
-                <div className="text-lg font-bold text-gray-900 mb-1">24/7</div>
-                <div className="text-xs text-gray-600">Portal Access</div>
-              </div>
-              <div className="bg-gray-50 rounded-lg p-3 text-center">
-                <div className="text-lg font-bold text-gray-900 mb-1">Free</div>
-                <div className="text-xs text-gray-600">Retest Policy</div>
-              </div>
-              <div className="bg-gray-50 rounded-lg p-3 text-center">
-                <div className="text-lg font-bold text-gray-900 mb-1">100%</div>
-                <div className="text-xs text-gray-600">Compliance Focus</div>
-              </div>
-            </div>
-
-            {/* Retest Policy - Compact */}
-            <div className="bg-blue-50 rounded-lg p-4 border border-blue-200">
-              <div className="flex items-center mb-2">
-                <div className="w-6 h-6 bg-blue-600 rounded-full flex items-center justify-center mr-2">
-                  <svg className="w-3 h-3 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
-                  </svg>
-                </div>
-                <h4 className="text-sm font-semibold text-gray-900 tracking-tight">
-                  Quality Guarantee
-                </h4>
-              </div>
-              <p className="text-xs text-gray-700 mb-2 leading-relaxed">
-                Free retest for results with &gt;15% variance. 30-day window with full methodology documentation.
-              </p>
-              <div className="text-xs text-blue-700 font-medium">
-                ✓ Third-party verification ✓ Methodology docs ✓ Confidence guarantee
-              </div>
-            </div>
-
-            {/* CTA */}
-            <div className="mt-6 text-center">
-              <button
-                onClick={() => setIsLogin(false)}
-                className="apple-button px-6 py-2.5 text-sm font-medium"
-              >
-                Get Started Today
-              </button>
-              <p className="text-xs text-gray-500 mt-1">
-                Join hundreds of East Coast cultivators
-              </p>
-            </div>
-          </div>
         </div>
       </div>
+
+      {/* Footer */}
+      <footer className="bg-gray-50 border-t border-gray-200 mt-6 md:mt-4">
+        <div className="max-w-6xl mx-auto px-4 py-4 md:py-3">
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
+            {/* Company Info */}
+            <div>
+              <h4 className="text-sm font-semibold text-gray-900 mb-2">Quantix Analytics</h4>
+              <div className="space-y-1 text-gray-600">
+                <p className="text-xs">5540 Centerview Dr Ste 204 #982095, Raleigh, NC 27606</p>
+                <p>
+                  <a href="mailto:support@quantixanalytics.com" className="text-xs hover:text-gray-900 transition-colors">
+                    support@quantixanalytics.com
+                  </a>
+                </p>
+              </div>
+            </div>
+
+            {/* Navigation Links */}
+            <div>
+              <h4 className="text-sm font-semibold text-gray-900 mb-2">Quick Links</h4>
+              <div className="flex flex-wrap gap-3 text-gray-600">
+                <Link href="/" className="text-xs hover:text-gray-900 transition-colors">Home</Link>
+                <Link href="/services" className="text-xs hover:text-gray-900 transition-colors">Services</Link>
+                <Link href="/submit-sample" className="text-xs hover:text-gray-900 transition-colors">Sample Submission</Link>
+                <Link href="/contact" className="text-xs hover:text-gray-900 transition-colors">Contact</Link>
+              </div>
+            </div>
+          </div>
+
+          {/* Copyright */}
+          <div className="border-t border-gray-200 pt-3 text-center text-xs text-gray-500">
+            <p className="mb-1">© 2025 Quantix Labs. All rights reserved.</p>
+            <p>Quantix Labs is an independent hemp testing facility.</p>
+          </div>
+        </div>
+      </footer>
     </div>
   );
 }

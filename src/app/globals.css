@@ -13,6 +13,10 @@
   --gray-700: #1d1d1f;
   --blue: #007aff;
   --blue-hover: #0056cc;
+  --green: #34c759;
+  --green-light: #d1f2d9;
+  --purple: #5856d6;
+  --purple-light: #e5e5ff;
 }
 
 @theme inline {
@@ -27,6 +31,7 @@
 
 html {
   scroll-behavior: smooth;
+  overflow-y: scroll;
 }
 
 body {
@@ -40,6 +45,117 @@ body {
   letter-spacing: -0.022em;
 }
 
+/* Professional card styles */
+.pro-card {
+  background: white;
+  border: 1px solid rgba(0, 0, 0, 0.06);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
+  transition: all 0.3s ease;
+}
+
+.pro-card:hover {
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.08);
+  transform: translateY(-2px);
+}
+
+/* Mobile card styles */
+@media (max-width: 640px) {
+  .pro-card {
+    box-shadow: 0 1px 4px rgba(0, 0, 0, 0.04);
+  }
+  
+  .pro-card:hover {
+    transform: none;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
+  }
+}
+
+/* Gradient backgrounds */
+.gradient-mesh {
+  background-image: 
+    radial-gradient(at 40% 20%, hsla(220, 80%, 96%, 0.3) 0px, transparent 50%),
+    radial-gradient(at 80% 0%, hsla(189, 80%, 95%, 0.2) 0px, transparent 50%),
+    radial-gradient(at 0% 50%, hsla(355, 80%, 96%, 0.1) 0px, transparent 50%);
+}
+
+/* Enhanced mobile gradient mesh */
+@media (max-width: 768px) {
+  .gradient-mesh {
+    background-image: 
+      radial-gradient(at 50% 0%, hsla(220, 90%, 94%, 0.5) 0px, transparent 40%),
+      radial-gradient(at 0% 20%, hsla(189, 90%, 93%, 0.4) 0px, transparent 50%),
+      radial-gradient(at 100% 60%, hsla(355, 80%, 94%, 0.3) 0px, transparent 50%),
+      radial-gradient(at 50% 100%, hsla(240, 80%, 96%, 0.2) 0px, transparent 60%);
+    background-size: 200% 200%;
+    animation: subtleGradientShift 20s ease infinite;
+  }
+}
+
+@keyframes subtleGradientShift {
+  0% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+  100% { background-position: 0% 50%; }
+}
+
+.gradient-subtle {
+  background: linear-gradient(135deg, #f5f7fa 0%, #f8f9fc 100%);
+}
+
+/* Data visualization colors */
+.data-green {
+  background: linear-gradient(135deg, #34c759 0%, #30b350 100%);
+}
+
+.data-blue {
+  background: linear-gradient(135deg, #007aff 0%, #0056cc 100%);
+}
+
+.data-purple {
+  background: linear-gradient(135deg, #5856d6 0%, #4240c0 100%);
+}
+
+/* Professional badges */
+.status-badge {
+  padding: 4px 12px;
+  border-radius: 20px;
+  font-size: 11px;
+  font-weight: 500;
+  letter-spacing: 0.5px;
+  text-transform: uppercase;
+}
+
+.status-complete {
+  background: var(--green-light);
+  color: #1d8a3a;
+}
+
+.status-pending {
+  background: #fff3cd;
+  color: #856404;
+}
+
+.status-processing {
+  background: var(--purple-light);
+  color: var(--purple);
+}
+
+/* Tech grid pattern */
+.tech-grid {
+  background-image: 
+    linear-gradient(rgba(0, 122, 255, 0.03) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(0, 122, 255, 0.03) 1px, transparent 1px);
+  background-size: 50px 50px;
+}
+
+/* Glassmorphism effect */
+.glass-effect {
+  background: rgba(255, 255, 255, 0.7);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  border: 1px solid rgba(255, 255, 255, 0.3);
+}
+
+/* Apple buttons with mobile optimization */
 .apple-button {
   background: var(--blue);
   color: white;
@@ -55,11 +171,40 @@ body {
   text-decoration: none;
   display: inline-block;
   text-align: center;
+  box-shadow: 0 2px 8px rgba(0, 122, 255, 0.15);
+  -webkit-tap-highlight-color: transparent;
+  touch-action: manipulation;
+  position: relative;
+  overflow: hidden;
+}
+
+.apple-button::before {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 0;
+  height: 0;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.2);
+  transform: translate(-50%, -50%);
+  transition: width 0.6s, height 0.6s;
+}
+
+.apple-button:active::before {
+  width: 300px;
+  height: 300px;
 }
 
 .apple-button:hover {
   background: var(--blue-hover);
   transform: translateY(-1px);
+  box-shadow: 0 4px 16px rgba(0, 122, 255, 0.25);
+}
+
+.apple-button:active {
+  transform: translateY(0);
+  box-shadow: 0 2px 4px rgba(0, 122, 255, 0.2);
 }
 
 .apple-button-secondary {
@@ -77,12 +222,41 @@ body {
   text-decoration: none;
   display: inline-block;
   text-align: center;
+  -webkit-tap-highlight-color: transparent;
+  touch-action: manipulation;
 }
 
 .apple-button-secondary:hover {
   background: var(--blue);
   color: white;
   transform: translateY(-1px);
+}
+
+.apple-button-secondary:active {
+  transform: translateY(0);
+}
+
+/* Mobile button styles */
+@media (max-width: 640px) {
+  .apple-button,
+  .apple-button-secondary {
+    padding: 12px 24px;
+    font-size: 16px;
+    font-weight: 500;
+    min-height: 48px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 4px 12px rgba(0, 122, 255, 0.2);
+  }
+  
+  .apple-button:active {
+    box-shadow: 0 2px 6px rgba(0, 122, 255, 0.15);
+  }
+  
+  .apple-button-secondary {
+    border-width: 2px;
+  }
 }
 
 .fade-in {
@@ -113,4 +287,180 @@ body {
     opacity: 1;
     transform: translateY(0);
   }
+}
+
+/* Mobile-optimized animations */
+@media (max-width: 640px) {
+  .fade-in {
+    animation: mobileFadeIn 0.6s ease-out;
+  }
+  
+  @keyframes mobileFadeIn {
+    from {
+      opacity: 0;
+      transform: translateY(15px) scale(0.98);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0) scale(1);
+    }
+  }
+  
+  .slide-up {
+    animation: mobileSlideUp 0.5s ease-out;
+    animation-fill-mode: both;
+  }
+  
+  @keyframes mobileSlideUp {
+    from {
+      opacity: 0;
+      transform: translateY(25px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+  
+  .slide-up:nth-child(2) { animation-delay: 0.1s; }
+  .slide-up:nth-child(3) { animation-delay: 0.2s; }
+  .slide-up:nth-child(4) { animation-delay: 0.3s; }
+}
+
+/* Responsive typography */
+@media (max-width: 640px) {
+  h1 {
+    font-size: 1.875rem; /* 30px */
+  }
+  
+  h2 {
+    font-size: 1.5rem; /* 24px */
+  }
+  
+  h3 {
+    font-size: 1.25rem; /* 20px */
+  }
+  
+  p {
+    font-size: 0.875rem; /* 14px */
+    line-height: 1.6;
+  }
+}
+
+/* Mobile navigation improvements */
+.mobile-nav-item {
+  padding: 12px 16px;
+  display: block;
+  text-decoration: none;
+  transition: all 0.2s ease;
+  -webkit-tap-highlight-color: transparent;
+}
+
+/* Touch-friendly interactive elements */
+@media (max-width: 640px) {
+  button,
+  a,
+  input,
+  select,
+  textarea {
+    min-height: 44px;
+    padding: 10px;
+  }
+  
+  input[type="checkbox"],
+  input[type="radio"] {
+    min-height: 24px;
+    min-width: 24px;
+  }
+}
+
+/* Mobile-specific utility classes */
+.mobile-scroll-x {
+  -webkit-overflow-scrolling: touch;
+  overflow-x: auto;
+  scrollbar-width: none;
+}
+
+.mobile-scroll-x::-webkit-scrollbar {
+  display: none;
+}
+
+/* Improved mobile spacing */
+@media (max-width: 640px) {
+  section {
+    padding-top: 3rem;
+    padding-bottom: 3rem;
+  }
+  
+  .container {
+    padding-left: 1rem;
+    padding-right: 1rem;
+  }
+}
+
+/* Mobile-optimized grid */
+@media (max-width: 640px) {
+  .grid {
+    gap: 1rem;
+  }
+  
+  .grid > * {
+    width: 100%;
+  }
+}
+
+/* Number animations */
+@keyframes countUp {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.animate-number {
+  animation: countUp 0.6s ease-out;
+  animation-fill-mode: both;
+}
+
+/* Enhanced mobile number animation */
+@media (max-width: 640px) {
+  .animate-number {
+    animation: mobileCountUp 0.8s ease-out;
+    animation-fill-mode: both;
+  }
+  
+  @keyframes mobileCountUp {
+    0% {
+      opacity: 0;
+      transform: translateY(20px) scale(0.8);
+    }
+    60% {
+      transform: translateY(-5px) scale(1.05);
+    }
+    100% {
+      opacity: 1;
+      transform: translateY(0) scale(1);
+    }
+  }
+}
+
+/* Pulse animation for live indicators */
+@keyframes pulse {
+  0% {
+    box-shadow: 0 0 0 0 rgba(52, 199, 89, 0.4);
+  }
+  70% {
+    box-shadow: 0 0 0 10px rgba(52, 199, 89, 0);
+  }
+  100% {
+    box-shadow: 0 0 0 0 rgba(52, 199, 89, 0);
+  }
+}
+
+.pulse-green {
+  animation: pulse 2s infinite;
 }
