@@ -140,14 +140,14 @@ export default function About() {
             <p className="text-lg">
               As operators in the cannabis supply chain, we experienced firsthand the delays, inconsistencies, 
               and outdated methods that plague traditional testing labs. Slow turnaround times, vague reporting, 
-              and lab errors don't just hurt margins—they delay launches, stall sales, and put compliance at risk.
+              and lab errors don&apos;t just hurt margins—they delay launches, stall sales, and put compliance at risk.
             </p>
             <p className="text-lg font-medium text-gray-900">
               We created Quantix to solve that.
             </p>
             <p className="text-lg">
               Our mission is simple: deliver accurate, compliant test results—fast. Because in this industry, 
-              every second matters. Products need to hit shelves without delay, whether you're a farm, retailer, 
+              every second matters. Products need to hit shelves without delay, whether you&apos;re a farm, retailer, 
               or distributor. We designed our lab around that urgency.
             </p>
           </div>
@@ -159,12 +159,12 @@ export default function About() {
             Based in Charlotte. Serving the East Coast.
           </h3>
           <div className="space-y-4 text-gray-700 leading-relaxed">
-            <p className="text-lg">
-              We operate out of Charlotte, North Carolina, a rising cannabis hub on the East Coast. 
-              While our lab is local, our reach is regional—we support operators across North Carolina, 
-              South Carolina, Tennessee, Georgia, and beyond. Wherever your facility is, we're structured 
-              to move fast and deliver clarity.
-            </p>
+                          <p className="text-lg">
+                We operate out of Charlotte, North Carolina, a rising cannabis hub on the East Coast. 
+                While our lab is local, our reach is regional—we support operators across North Carolina, 
+                South Carolina, Tennessee, Georgia, and beyond. Wherever your facility is, we&apos;re structured 
+                to move fast and deliver clarity.
+              </p>
           </div>
         </section>
 
@@ -269,15 +269,15 @@ export default function About() {
           </h3>
           <div className="space-y-4 text-gray-700 leading-relaxed">
             <p className="text-lg font-medium text-gray-900">
-              We don't believe in waiting a week for test results that barely tell you anything.
+              We don&apos;t believe in waiting a week for test results that barely tell you anything.
             </p>
             <p className="text-lg">
-              We built Quantix to support operators who move fast and don't have time for guesswork. 
+              We built Quantix to support operators who move fast and don&apos;t have time for guesswork. 
               Our systems are tuned for precision, compliance, and real-world cannabis logistics.
             </p>
             <p className="text-lg">
-              If you're a cultivator, formulator, processor, or brand, you need results you can trust—and 
-              you need them without delay. That's what we do.
+              If you&apos;re a cultivator, formulator, processor, or brand, you need results you can trust—and 
+              you need them without delay. That&apos;s what we do.
             </p>
           </div>
         </section>
