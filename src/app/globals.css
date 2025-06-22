@@ -52,10 +52,11 @@ img, video {
 }
 
 html {
-  overflow-y: scroll;
+  overflow-y: auto;
   /* Improve scroll performance */
   scroll-behavior: auto;
   -webkit-scroll-behavior: auto;
+  height: 100%;
 }
 
 body {
@@ -69,7 +70,10 @@ body {
   letter-spacing: -0.022em;
   /* Improve scroll performance */
   -webkit-overflow-scrolling: touch;
-  overscroll-behavior: contain;
+  overscroll-behavior-y: none;
+  min-height: 100vh;
+  /* Prevent scroll anchoring issues */
+  overflow-anchor: none;
 }
 
 /* Professional card styles */
@@ -414,10 +418,18 @@ body {
 
 /* Optimize mobile scrolling */
 @media (max-width: 768px) {
-  body {
-    /* Prevent momentum scrolling issues */
-    position: relative;
+  /* Reset any problematic scroll behaviors */
+  html, body {
+    height: auto;
+    min-height: 100vh;
     overflow-x: hidden;
+  }
+  
+  body {
+    /* Prevent overscroll bounce */
+    overscroll-behavior: none;
+    -webkit-overflow-scrolling: touch;
+    position: relative;
   }
   
   /* Disable transforms on mobile for better scroll performance */
@@ -513,4 +525,39 @@ body {
 
 .pulse-green {
   animation: pulse 2s infinite;
+}
+
+/* Fix footer scroll issues */
+footer {
+  position: relative;
+  z-index: 1;
+}
+
+/* Ensure proper page structure */
+.min-h-screen {
+  min-height: 100vh;
+  position: relative;
+  display: flex;
+  flex-direction: column;
+}
+
+/* Prevent scroll jump on mobile */
+@media (max-width: 768px) {
+  /* Add padding to prevent content from being too close to viewport edge */
+  footer {
+    padding-bottom: env(safe-area-inset-bottom, 20px);
+  }
+  
+  /* Ensure main content takes up space */
+  main, 
+  .min-h-screen > *:not(footer) {
+    flex: 1 0 auto;
+  }
+  
+  /* Footer should not cause scroll issues */
+  footer {
+    flex-shrink: 0;
+    position: relative;
+    margin-top: auto;
+  }
 }
