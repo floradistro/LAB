@@ -386,7 +386,7 @@ export default function ClientPortal() {
 
   if (isLoggedIn) {
     return (
-      <div className="min-h-screen bg-gray-100">
+      <div className="min-h-screen bg-gray-100 flex flex-col">
         {/* Main Navigation Bar */}
         <nav className="bg-white/80 backdrop-blur-md border-b border-gray-200/50 sticky top-0 z-50 glass-effect">
           <div className="max-w-6xl mx-auto px-4">
@@ -473,7 +473,7 @@ export default function ClientPortal() {
   }
 
   return (
-    <div className="min-h-screen bg-white">
+    <div className="min-h-screen bg-white flex flex-col">
       {/* Navigation Bar */}
       <nav className="bg-white/80 backdrop-blur-md border-b border-gray-200/50 sticky top-0 z-50 glass-effect">
         <div className="max-w-6xl mx-auto px-4">

@@ -1,0 +1,25 @@
+{
+  "name": "Quantix Analytics - Hemp & Cannabis Testing Laboratory",
+  "short_name": "Quantix Analytics",
+  "description": "Leading hemp and cannabis testing laboratory providing accurate, reliable analytical testing services.",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#ffffff",
+  "theme_color": "#000000",
+  "orientation": "portrait-primary",
+  "icons": [
+    {
+      "src": "/quantixlogo.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "/quantixlogo.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any maskable"
+    }
+  ],
+  "categories": ["business", "science", "medical"]
+} 

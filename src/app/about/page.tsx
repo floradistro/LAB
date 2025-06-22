@@ -8,7 +8,7 @@ export default function About() {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
 
   return (
-    <div className="min-h-screen bg-white">
+    <div className="min-h-screen bg-white flex flex-col">
       {/* Navigation Bar - Apple Style */}
       <nav className="bg-white/80 backdrop-blur-md border-b border-gray-200/50 sticky top-0 z-50 glass-effect">
         {/* Mobile Navigation - Edge to Edge */}
