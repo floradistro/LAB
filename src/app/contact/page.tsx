@@ -135,7 +135,7 @@ export default function Contact() {
       </nav>
 
       {/* Hero Section */}
-      <div className="max-w-4xl mx-auto px-4 py-6 md:py-4">
+      <main className="flex-1 max-w-4xl mx-auto px-4 py-6 md:py-4">
         <div className="text-center mb-6 md:mb-4">
           <h1 className="text-base md:text-xl font-semibold text-gray-900 tracking-tight mb-1.5">
             Contact Us
@@ -270,7 +270,7 @@ export default function Contact() {
             </div>
           </div>
         </div>
-      </div>
+      </main>
 
       {/* Footer */}
       <footer className="bg-gray-50 border-t border-gray-200 mt-6 md:mt-4">

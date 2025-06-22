@@ -125,7 +125,7 @@ export default function Services() {
       </nav>
 
       {/* Main Content */}
-      <div className="max-w-4xl mx-auto px-4 py-6 md:py-4">
+      <main className="flex-1 max-w-4xl mx-auto px-4 py-6 md:py-4">
         <div className="text-center mb-6 md:mb-4">
           <div className="flex items-center justify-center mb-4 md:mb-6 fade-in -space-x-2">
             <div className="relative">
@@ -232,7 +232,7 @@ export default function Services() {
             </div>
           </div>
         </section>
-      </div>
+      </main>
 
       {/* Bundle Packages */}
       <section id="packages" className="py-12 md:py-16 px-4 bg-white">

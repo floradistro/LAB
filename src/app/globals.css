@@ -548,10 +548,15 @@ footer {
     padding-bottom: env(safe-area-inset-bottom, 20px);
   }
   
-  /* Ensure main content takes up space */
-  main, 
-  .min-h-screen > *:not(footer) {
+  /* Ensure main content takes up space and footer sticks to bottom */
+  main {
     flex: 1 0 auto;
+  }
+  
+  /* For pages with simple main content */
+  main:not(.flex) {
+    display: flex;
+    flex-direction: column;
   }
   
   /* Footer should not cause scroll issues */
@@ -559,5 +564,17 @@ footer {
     flex-shrink: 0;
     position: relative;
     margin-top: auto;
+  }
+  
+  /* Prevent overscroll and rubber band effect */
+  body {
+    overscroll-behavior-y: none;
+    -webkit-overflow-scrolling: touch;
+    position: relative;
+  }
+  
+  /* Ensure smooth scrolling without bounce */
+  html {
+    overscroll-behavior: none;
   }
 }

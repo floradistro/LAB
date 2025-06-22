@@ -125,8 +125,9 @@ export default function Home() {
       </nav>
 
       {/* Hero Section - Large and Centered */}
-      <section className="relative bg-white min-h-[80vh] md:min-h-[calc(100vh-4rem)] flex items-center justify-center px-4 gradient-mesh">
-        <div className="max-w-5xl mx-auto text-center py-8 relative">
+      <main className="flex-1 flex flex-col">
+        <section className="relative bg-white min-h-[80vh] md:min-h-[calc(100vh-4rem)] flex items-center justify-center px-4 gradient-mesh flex-1">
+          <div className="max-w-5xl mx-auto text-center py-8 relative">
           {/* Mobile-only subtle content shadow */}
           <div className="md:hidden absolute inset-0 bg-gradient-to-b from-transparent via-white/5 to-white/10 rounded-3xl blur-3xl -z-10"></div>
           
@@ -170,9 +171,10 @@ export default function Home() {
 
         </div>
 
-        {/* Background decoration */}
-        <div className="absolute bottom-0 left-0 right-0 h-32 bg-gradient-to-t from-gray-50 to-transparent opacity-50"></div>
-      </section>
+          {/* Background decoration */}
+          <div className="absolute bottom-0 left-0 right-0 h-32 bg-gradient-to-t from-gray-50 to-transparent opacity-50"></div>
+        </section>
+      </main>
 
       {/* Footer */}
       <footer className="bg-gray-50 border-t border-gray-200 mt-6 md:mt-4">
