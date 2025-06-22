@@ -255,7 +255,7 @@ export default function Contact() {
             </h3>
             <p className="text-xs text-gray-600 mb-3 max-w-2xl mx-auto">
               Our team is here to help you understand our testing processes, turnaround times, 
-              and how we can support your cannabis operation. Don't hesitate to reach out.
+              and how we can support your cannabis operation. Don&apos;t hesitate to reach out.
             </p>
             <div className="flex flex-col sm:flex-row gap-2 justify-center">
               <a 
