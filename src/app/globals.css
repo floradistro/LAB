@@ -543,21 +543,79 @@ footer {
 
 /* Prevent scroll jump on mobile */
 @media (max-width: 768px) {
+  /* Enhanced mobile scroll fixes to prevent stuttering */
+  html {
+    /* Disable scroll anchoring which can cause jumps */
+    overflow-anchor: none;
+    /* Ensure smooth scrolling */
+    -webkit-overflow-scrolling: touch;
+    scroll-behavior: smooth;
+  }
+  
+  body {
+    /* Prevent elastic scrolling/bounce */
+    overscroll-behavior: none;
+    /* Ensure body doesn't have fixed height */
+    height: auto;
+    min-height: 100vh;
+    /* Prevent horizontal scroll */
+    overflow-x: hidden;
+    /* Smooth scrolling on body */
+    -webkit-overflow-scrolling: touch;
+  }
+  
+  /* Ensure the main container structure works properly */
+  .min-h-screen {
+    min-height: 100vh;
+    /* Use 100% instead of 100vh to account for mobile browser chrome */
+    min-height: 100%;
+    /* Ensure proper flex layout */
+    display: flex;
+    flex-direction: column;
+    /* Prevent container from having its own scroll */
+    overflow: visible;
+  }
+  
+  /* Main content should expand properly */
+  main,
+  .min-h-screen > *:not(footer):not(nav) {
+    flex: 1 0 auto;
+    /* Prevent individual sections from creating their own scroll contexts */
+    overflow: visible;
+  }
+  
   /* Add padding to prevent content from being too close to viewport edge */
   footer {
     padding-bottom: env(safe-area-inset-bottom, 20px);
-  }
-  
-  /* Ensure main content takes up space */
-  main, 
-  .min-h-screen > *:not(footer) {
-    flex: 1 0 auto;
-  }
-  
-  /* Footer should not cause scroll issues */
-  footer {
+    /* Footer should not cause scroll issues */
     flex-shrink: 0;
     position: relative;
     margin-top: auto;
+    /* Ensure footer doesn't create its own scroll context */
+    overflow: visible;
+  }
+  
+  /* Prevent any nested containers from creating scroll contexts */
+  .max-w-4xl,
+  .max-w-6xl,
+  section {
+    overflow: visible !important;
+  }
+  
+  /* Disable all transforms that might affect scrolling */
+  * {
+    /* Disable will-change to prevent layer creation issues */
+    will-change: auto !important;
+  }
+  
+  /* Ensure navigation doesn't interfere with scrolling */
+  nav {
+    /* Keep nav sticky but ensure it doesn't cause reflow */
+    position: -webkit-sticky;
+    position: sticky;
+    top: 0;
+    z-index: 50;
+    /* Prevent nav from affecting scroll */
+    transform: translateZ(0);
   }
 }

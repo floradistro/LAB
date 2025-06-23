@@ -125,8 +125,7 @@ export default function Services() {
       </nav>
 
       {/* Main Content */}
-      <main className="flex-1 flex flex-col">
-        <div className="max-w-4xl mx-auto px-4 py-6 md:py-4 w-full">
+      <div className="max-w-4xl mx-auto px-4 py-6 md:py-4 w-full">
         <div className="text-center mb-6 md:mb-4">
           <div className="flex items-center justify-center mb-4 md:mb-6 fade-in -space-x-2">
             <div className="relative">
@@ -446,7 +445,6 @@ export default function Services() {
           </div>
         </div>
       </section>
-      </main>
 
       {/* Footer */}
       <footer className="bg-gray-50 border-t border-gray-200 mt-6 md:mt-4">
