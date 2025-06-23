@@ -1,7 +1,6 @@
 "use client";
 
 import { useState } from "react";
-import Image from "next/image";
 import Layout from "@/components/Layout";
 import Button from "@/components/UI/Button";
 import Input from "@/components/UI/Input";
@@ -38,13 +37,13 @@ export default function Contact() {
       message: ''
     },
     validationSchema,
-    onSubmit: async (values) => {
+    onSubmit: async () => {
       try {
         // Simulate form submission
         await new Promise(resolve => setTimeout(resolve, 1500));
         setSubmitStatus('success');
         form.reset();
-      } catch (error) {
+      } catch {
         setSubmitStatus('error');
       }
     }

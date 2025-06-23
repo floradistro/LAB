@@ -45,7 +45,7 @@ export default function ClientPortal() {
   const loginForm = useForm<LoginFormData>({
     initialValues: { email: '', password: '' },
     validationSchema: loginValidation,
-    onSubmit: async (values) => {
+    onSubmit: async () => {
       // Simulate login
       await new Promise(resolve => setTimeout(resolve, 1000));
       setIsLoggedIn(true);
