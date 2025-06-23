@@ -121,6 +121,22 @@ body {
   background: linear-gradient(135deg, #f5f7fa 0%, #f8f9fc 100%);
 }
 
+/* Shimmer animation for skeletons */
+@keyframes shimmer {
+  0% {
+    background-position: -1000px 0;
+  }
+  100% {
+    background-position: 1000px 0;
+  }
+}
+
+.animate-shimmer {
+  animation: shimmer 2s infinite linear;
+  background: linear-gradient(to right, #f0f0f0 4%, #e0e0e0 25%, #f0f0f0 36%);
+  background-size: 1000px 100%;
+}
+
 /* Data visualization colors */
 .data-green {
   background: linear-gradient(135deg, #34c759 0%, #30b350 100%);

@@ -1,658 +1,402 @@
 "use client";
 
-import Image from "next/image";
-import Link from "next/link";
 import { useState } from "react";
+import Image from "next/image";
+import Layout from "@/components/Layout";
+import Button from "@/components/UI/Button";
+import Input from "@/components/UI/Input";
+import Card from "@/components/UI/Card";
+import { useForm } from "@/hooks/useForm";
+import { ValidationSchema } from "@/lib/validation";
+
+interface SampleFormData {
+  // Contact Information
+  firstName: string;
+  lastName: string;
+  email: string;
+  phone: string;
+  companyName: string;
+  
+  // Sample Details
+  sampleType: string;
+  sampleName: string;
+  batchNumber: string;
+  sampleSize: string;
+  
+  // Testing Requirements
+  testingPackage: string;
+  rushTesting: boolean;
+  additionalNotes: string;
+  
+  [key: string]: unknown;
+}
 
 export default function SubmitSample() {
-  const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
-  const [formData, setFormData] = useState({
-    // Company Information
-    companyName: '',
-    contactName: '',
-    email: '',
-    phone: '',
-    address: '',
-    city: '',
-    state: '',
-    zipCode: '',
-    
-    // Sample Information
-    sampleType: '',
-    productType: '',
-    testingRequested: [] as string[],
-    urgency: 'standard',
-    sampleQuantity: '',
-    batchSize: '',
-    harvestDate: '',
-    
-    // Additional Information
-    specialInstructions: '',
-    regulatoryCompliance: '',
-    previousClient: false
+  const [submitStatus, setSubmitStatus] = useState<'idle' | 'success' | 'error'>('idle');
+  const [currentStep, setCurrentStep] = useState(1);
+
+  const validationSchema: ValidationSchema = {
+    firstName: [{ type: 'required' }],
+    lastName: [{ type: 'required' }],
+    email: [{ type: 'required' }, { type: 'email' }],
+    phone: [{ type: 'required' }, { type: 'phone' }],
+    companyName: [{ type: 'required' }],
+    sampleType: [{ type: 'required' }],
+    sampleName: [{ type: 'required' }],
+    batchNumber: [{ type: 'required' }],
+    testingPackage: [{ type: 'required' }]
+  };
+
+  const form = useForm<SampleFormData>({
+    initialValues: {
+      firstName: '',
+      lastName: '',
+      email: '',
+      phone: '',
+      companyName: '',
+      sampleType: '',
+      sampleName: '',
+      batchNumber: '',
+      sampleSize: '',
+      testingPackage: '',
+      rushTesting: false,
+      additionalNotes: ''
+    },
+    validationSchema,
+    onSubmit: async (values) => {
+      try {
+        // Simulate form submission
+        await new Promise(resolve => setTimeout(resolve, 2000));
+        setSubmitStatus('success');
+        form.reset();
+        setCurrentStep(1);
+      } catch (error) {
+        setSubmitStatus('error');
+      }
+    }
   });
 
-  const [isSubmitting, setIsSubmitting] = useState(false);
-  const [submitted, setSubmitted] = useState(false);
+  const totalSteps = 3;
 
-  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
-    const { name, value, type } = e.target;
-    
-    if (type === 'checkbox') {
-      const checked = (e.target as HTMLInputElement).checked;
-      if (name === 'testingRequested') {
-        setFormData(prev => ({
-          ...prev,
-          testingRequested: checked 
-            ? [...prev.testingRequested, value]
-            : prev.testingRequested.filter(item => item !== value)
-        }));
-      } else {
-        setFormData(prev => ({ ...prev, [name]: checked }));
-      }
-    } else {
-      setFormData(prev => ({ ...prev, [name]: value }));
+  const nextStep = () => {
+    if (currentStep < totalSteps) {
+      setCurrentStep(currentStep + 1);
     }
   };
 
-  const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
-    setIsSubmitting(true);
-    
-    // Simulate API call
-    setTimeout(() => {
-      setIsSubmitting(false);
-      setSubmitted(true);
-    }, 2000);
+  const prevStep = () => {
+    if (currentStep > 1) {
+      setCurrentStep(currentStep - 1);
+    }
   };
 
-  if (submitted) {
-    return (
-      <div className="min-h-screen bg-white flex flex-col">
-        {/* Navigation */}
-        <nav className="bg-white/80 backdrop-blur-md border-b border-gray-200/50 sticky top-0 z-50">
-          <div className="max-w-6xl mx-auto px-4">
-            <div className="flex justify-between items-center h-12 md:h-9">
-              <Link href="/" className="flex items-center space-x-2">
-                <Image
-                  src="/quantixlogo.png"
-                  alt="Quantix Logo"
-                  width={24}
-                  height={24}
-                  className="w-6 h-6"
+  const renderStepContent = () => {
+    switch (currentStep) {
+      case 1:
+        return (
+          <div className="space-y-4">
+            <h3 className="text-lg font-semibold text-gray-900 mb-4">Contact Information</h3>
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+              <Input
+                label="First Name"
+                placeholder="John"
+                required
+                {...form.getFieldProps('firstName')}
+                error={form.errors.firstName}
+              />
+              <Input
+                label="Last Name"
+                placeholder="Doe"
+                required
+                {...form.getFieldProps('lastName')}
+                error={form.errors.lastName}
+              />
+            </div>
+            <Input
+              type="email"
+              label="Email"
+              placeholder="john@company.com"
+              required
+              {...form.getFieldProps('email')}
+              error={form.errors.email}
+            />
+            <Input
+              type="tel"
+              label="Phone"
+              placeholder="(555) 123-4567"
+              required
+              {...form.getFieldProps('phone')}
+              error={form.errors.phone}
+            />
+            <Input
+              label="Company Name"
+              placeholder="Your company name"
+              required
+              {...form.getFieldProps('companyName')}
+              error={form.errors.companyName}
+            />
+          </div>
+        );
+      
+      case 2:
+        return (
+          <div className="space-y-4">
+            <h3 className="text-lg font-semibold text-gray-900 mb-4">Sample Details</h3>
+            <div>
+              <label className="block text-sm font-medium text-gray-700 mb-2">
+                Sample Type <span className="text-red-500">*</span>
+              </label>
+              <select
+                className="w-full px-3 py-2.5 md:py-2 text-sm md:text-xs border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                required
+                {...form.getFieldProps('sampleType')}
+              >
+                <option value="">Select sample type</option>
+                <option value="flower">Flower</option>
+                <option value="concentrate">Concentrate/Extract</option>
+                <option value="edible">Edible</option>
+                <option value="tincture">Tincture/Oil</option>
+                <option value="topical">Topical</option>
+                <option value="other">Other</option>
+              </select>
+              {form.errors.sampleType && (
+                <p className="mt-1 text-xs text-red-600">{form.errors.sampleType}</p>
+              )}
+            </div>
+            <Input
+              label="Sample Name"
+              placeholder="e.g., Blue Dream Batch #47"
+              required
+              {...form.getFieldProps('sampleName')}
+              error={form.errors.sampleName}
+            />
+            <Input
+              label="Batch Number"
+              placeholder="e.g., BD-2024-047"
+              required
+              {...form.getFieldProps('batchNumber')}
+              error={form.errors.batchNumber}
+            />
+            <Input
+              label="Sample Size"
+              placeholder="e.g., 5 grams"
+              helpText="Minimum 2g for flower, 1g for concentrates"
+              {...form.getFieldProps('sampleSize')}
+              error={form.errors.sampleSize}
+            />
+          </div>
+        );
+      
+      case 3:
+        return (
+          <div className="space-y-4">
+            <h3 className="text-lg font-semibold text-gray-900 mb-4">Testing Requirements</h3>
+            <div>
+              <label className="block text-sm font-medium text-gray-700 mb-2">
+                Testing Package <span className="text-red-500">*</span>
+              </label>
+              <select
+                className="w-full px-3 py-2.5 md:py-2 text-sm md:text-xs border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                required
+                {...form.getFieldProps('testingPackage')}
+              >
+                <option value="">Select testing package</option>
+                <option value="basic">Basic Potency ($75)</option>
+                <option value="full">Full Panel - Potency + Safety ($250)</option>
+                <option value="potency-terpenes">Potency + Terpenes ($140)</option>
+                <option value="safety">Safety Only - Pesticides, Microbials, Heavy Metals ($175)</option>
+                <option value="custom">Custom Testing (Contact for Quote)</option>
+              </select>
+              {form.errors.testingPackage && (
+                <p className="mt-1 text-xs text-red-600">{form.errors.testingPackage}</p>
+              )}
+            </div>
+            
+            <div className="border border-gray-200 rounded-lg p-4">
+              <label className="flex items-center">
+                <input
+                  type="checkbox"
+                  className="mr-3 rounded"
+                  checked={form.values.rushTesting as boolean}
+                  onChange={(e) => form.setFieldValue('rushTesting', e.target.checked)}
                 />
-              </Link>
+                <div>
+                  <span className="text-sm font-medium text-gray-900">Rush Testing</span>
+                  <p className="text-xs text-gray-600">Same-day results (+50% rush fee)</p>
+                </div>
+              </label>
+            </div>
+            
+            <div>
+              <label className="block text-sm font-medium text-gray-700 mb-2">
+                Additional Notes
+              </label>
+              <textarea
+                rows={4}
+                className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                placeholder="Any special instructions or requirements..."
+                {...form.getFieldProps('additionalNotes')}
+              />
             </div>
           </div>
-        </nav>
+        );
+    }
+  };
 
-        {/* Success Message */}
-        <main className="flex-1 flex items-center justify-center px-4">
-          <div className="max-w-2xl mx-auto text-center">
-            <div className="w-12 h-12 bg-green-100 rounded-full flex items-center justify-center mx-auto mb-4">
-              <svg className="w-6 h-6 text-green-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+  if (submitStatus === 'success') {
+    return (
+      <Layout currentPage="submit-sample">
+        <div className="min-h-[80vh] flex items-center justify-center px-4">
+          <Card className="max-w-md w-full p-8 text-center">
+            <div className="w-16 h-16 bg-green-100 rounded-full flex items-center justify-center mx-auto mb-4">
+              <svg className="w-8 h-8 text-green-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
               </svg>
             </div>
-            <h1 className="text-lg md:text-xl font-semibold text-gray-900 mb-2">
-              Submission Received
-            </h1>
-            <p className="text-xs text-gray-600 mb-4 font-light leading-snug">
-              Sample intake form processed. Laboratory protocols and client access credentials will be transmitted via email.
+            <h2 className="text-2xl font-bold text-gray-900 mb-2">Sample Submitted Successfully!</h2>
+            <p className="text-gray-600 mb-6">
+              We&apos;ve received your sample submission. You&apos;ll receive a confirmation email 
+              with shipping instructions and your sample tracking number.
             </p>
-            <div className="bg-gray-50 rounded-lg p-3 mb-4 text-left">
-              <ul className="space-y-2 text-gray-700">
-                <li className="flex items-start">
-                  <span className="w-1.5 h-1.5 bg-blue-600 rounded-full mt-1.5 mr-2 flex-shrink-0"></span>
-                  <span className="text-xs md:text-[11px]">Sample preparation protocols and handling specifications</span>
-                </li>
-                <li className="flex items-start">
-                  <span className="w-1.5 h-1.5 bg-blue-600 rounded-full mt-1.5 mr-2 flex-shrink-0"></span>
-                  <span className="text-xs md:text-[11px]">Laboratory shipping address and packaging requirements</span>
-                </li>
-                <li className="flex items-start">
-                  <span className="w-1.5 h-1.5 bg-blue-600 rounded-full mt-1.5 mr-2 flex-shrink-0"></span>
-                  <span className="text-xs md:text-[11px]">Chain of custody documentation and tracking forms</span>
-                </li>
-                <li className="flex items-start">
-                  <span className="w-1.5 h-1.5 bg-blue-600 rounded-full mt-1.5 mr-2 flex-shrink-0"></span>
-                  <span className="text-xs md:text-[11px]">Client portal authentication credentials and access instructions</span>
-                </li>
-              </ul>
+            <div className="space-y-3">
+              <Button onClick={() => {
+                setSubmitStatus('idle');
+                form.reset();
+              }} fullWidth>
+                Submit Another Sample
+              </Button>
+              <Button href="/client-portal" variant="secondary" fullWidth>
+                Go to Client Portal
+              </Button>
             </div>
-            <div className="flex flex-col sm:flex-row gap-2 justify-center">
-              <Link href="/" className="apple-button px-6 py-2 w-full sm:w-auto">
-                Return Home
-              </Link>
-              <Link href="/services" className="apple-button-secondary px-6 py-2 w-full sm:w-auto">
-                View Services
-              </Link>
-            </div>
-          </div>
-        </main>
-      </div>
+          </Card>
+        </div>
+      </Layout>
     );
   }
 
   return (
-    <div className="min-h-screen bg-white flex flex-col">
-      {/* Navigation Bar */}
-      <nav className="bg-white/80 backdrop-blur-md border-b border-gray-200/50 sticky top-0 z-50">
-        {/* Mobile Navigation - Edge to Edge */}
-        <div className="md:hidden">
-          <div className="flex items-center justify-between h-12 px-2">
-            <Link href="/" className="p-1">
-              <Image
-                src="/quantixlogo.png"
-                alt="Quantix Logo"
-                width={24}
-                height={24}
-                className="w-6 h-6"
-              />
-            </Link>
-            
-            <button
-              onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-              className="p-1 text-gray-600 hover:text-gray-900 transition-colors"
-              aria-label="Toggle mobile menu"
-            >
-              <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                {mobileMenuOpen ? (
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
-                ) : (
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 6h16M4 12h16M4 18h16" />
-                )}
-              </svg>
-            </button>
-          </div>
-        </div>
-        
-        {/* Desktop Navigation */}
-        <div className="hidden md:block max-w-6xl mx-auto px-4">
-          <div className="flex items-center h-9 relative">
-            <Link href="/" className="flex items-center space-x-2">
-              <Image
-                src="/quantixlogo.png"
-                alt="Quantix Logo"
-                width={24}
-                height={24}
-                className="w-6 h-6"
-              />
-            </Link>
-            
-            {/* Desktop Navigation - Centered */}
-            <div className="flex items-center space-x-6 absolute left-1/2 transform -translate-x-1/2">
-              <Link href="/" className="text-xs text-gray-600 hover:text-gray-900 transition-colors font-medium">
-                Home
-              </Link>
-              <Link href="/about" className="text-xs text-gray-600 hover:text-gray-900 transition-colors font-medium">
-                About
-              </Link>
-              <Link href="/services" className="text-xs text-gray-600 hover:text-gray-900 transition-colors font-medium">
-                Services
-              </Link>
-              <Link href="/client-portal" className="text-xs text-gray-600 hover:text-gray-900 transition-colors font-medium">
-                Client Portal
-              </Link>
-            </div>
-
-            {/* Submit Sample Button - Right Side */}
-            <div className="flex ml-auto w-64 justify-end">
-              <span className="apple-button opacity-50 cursor-not-allowed">
-                Submit Sample
-              </span>
-            </div>
-          </div>
-        </div>
-
-        {/* Mobile Menu */}
-        {mobileMenuOpen && (
-          <div className="md:hidden border-t border-gray-200/50 bg-white/95 backdrop-blur-md">
-            <div className="py-3 space-y-1">
-              <Link 
-                href="/" 
-                className="block px-4 py-3 text-sm text-gray-700 hover:text-gray-900 hover:bg-gray-50 transition-colors"
-                onClick={() => setMobileMenuOpen(false)}
-              >
-                Home
-              </Link>
-              <Link 
-                href="/about" 
-                className="block px-4 py-3 text-sm text-gray-700 hover:text-gray-900 hover:bg-gray-50 transition-colors"
-                onClick={() => setMobileMenuOpen(false)}
-              >
-                About
-              </Link>
-              <Link 
-                href="/services" 
-                className="block px-4 py-3 text-sm text-gray-700 hover:text-gray-900 hover:bg-gray-50 transition-colors"
-                onClick={() => setMobileMenuOpen(false)}
-              >
-                Services
-              </Link>
-              <Link 
-                href="/client-portal" 
-                className="block px-4 py-3 text-sm text-gray-700 hover:text-gray-900 hover:bg-gray-50 transition-colors"
-                onClick={() => setMobileMenuOpen(false)}
-              >
-                Client Portal
-              </Link>
-              <div className="px-4 py-3">
-                <span className="text-sm text-gray-900 font-medium">Submit Sample</span>
-              </div>
-            </div>
-          </div>
-        )}
-      </nav>
-
-      {/* Main Content */}
-      <div className="max-w-4xl mx-auto px-4 py-6 md:py-4 w-full">
-        <div className="text-center mb-6 md:mb-4">
-          <div className="flex items-center justify-center mb-4 md:mb-6 fade-in -space-x-2">
-            <div className="relative">
-              <div className="absolute inset-0 bg-blue-500 rounded-full blur-xl opacity-20"></div>
-              <Image
-                src="/quantixlogo.png"
-                alt="Quantix Logo"
-                width={80}
-                height={80}
-                className="w-20 h-20 md:w-20 md:h-20 relative z-10 drop-shadow-lg"
-              />
-            </div>
-            <h1 className="text-5xl md:text-5xl font-bold text-gray-900 tracking-tight">
-              Quantix
+    <Layout currentPage="submit-sample">
+      <section className="relative bg-white min-h-[80vh] md:min-h-[calc(100vh-4rem)] flex items-start justify-center px-4 gradient-mesh">
+        <div className="max-w-2xl mx-auto py-8 md:py-6 relative w-full">
+          <div className="text-center mb-8">
+            <h1 className="text-4xl md:text-5xl font-bold text-gray-900 mb-4 fade-in">
+              Submit Your Sample
             </h1>
-          </div>
-          <h2 className="text-base md:text-xl font-semibold text-gray-900 tracking-tight mb-1.5">
-            Sample Submission Portal
-          </h2>
-          <p className="text-xs text-gray-600 max-w-2xl mx-auto font-light leading-snug">
-            Complete intake form for laboratory analysis. Sample preparation protocols, shipping instructions, and client portal credentials will be provided upon submission.
-          </p>
-        </div>
-
-        <form onSubmit={handleSubmit} className="space-y-4 md:space-y-3">
-          {/* Company Information */}
-          <div className="bg-white border border-gray-200 rounded-lg p-4 md:p-3">
-            <h2 className="text-sm font-semibold text-gray-900 mb-3">Client Information</h2>
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
-              <div>
-                <label htmlFor="companyName" className="block text-xs md:text-[11px] font-medium text-gray-700 mb-1">
-                  Organization *
-                </label>
-                <input
-                  type="text"
-                  id="companyName"
-                  name="companyName"
-                  required
-                  value={formData.companyName}
-                  onChange={handleInputChange}
-                  className="w-full px-3 py-2.5 md:py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-colors text-sm md:text-xs"
-                />
-              </div>
-              <div>
-                <label htmlFor="contactName" className="block text-xs md:text-[11px] font-medium text-gray-700 mb-1">
-                  Primary Contact *
-                </label>
-                <input
-                  type="text"
-                  id="contactName"
-                  name="contactName"
-                  required
-                  value={formData.contactName}
-                  onChange={handleInputChange}
-                  className="w-full px-3 py-2.5 md:py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-colors text-sm md:text-xs"
-                />
-              </div>
-              <div>
-                <label htmlFor="email" className="block text-xs md:text-[11px] font-medium text-gray-700 mb-1">
-                  Email *
-                </label>
-                <input
-                  type="email"
-                  id="email"
-                  name="email"
-                  required
-                  value={formData.email}
-                  onChange={handleInputChange}
-                  className="w-full px-3 py-2.5 md:py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-colors text-sm md:text-xs"
-                />
-              </div>
-              <div>
-                <label htmlFor="phone" className="block text-xs md:text-[11px] font-medium text-gray-700 mb-1">
-                  Phone *
-                </label>
-                <input
-                  type="tel"
-                  id="phone"
-                  name="phone"
-                  required
-                  value={formData.phone}
-                  onChange={handleInputChange}
-                  className="w-full px-3 py-2.5 md:py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-colors text-sm md:text-xs"
-                />
-              </div>
-              <div className="md:col-span-2">
-                <label htmlFor="address" className="block text-xs md:text-[11px] font-medium text-gray-700 mb-1">
-                  Facility Address *
-                </label>
-                <input
-                  type="text"
-                  id="address"
-                  name="address"
-                  required
-                  value={formData.address}
-                  onChange={handleInputChange}
-                  className="w-full px-3 py-2.5 md:py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-colors text-sm md:text-xs"
-                />
-              </div>
-              <div>
-                <label htmlFor="city" className="block text-xs md:text-[11px] font-medium text-gray-700 mb-1">
-                  City *
-                </label>
-                <input
-                  type="text"
-                  id="city"
-                  name="city"
-                  required
-                  value={formData.city}
-                  onChange={handleInputChange}
-                  className="w-full px-3 py-2.5 md:py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-colors text-sm md:text-xs"
-                />
-              </div>
-              <div>
-                <label htmlFor="state" className="block text-xs md:text-[11px] font-medium text-gray-700 mb-1">
-                  State *
-                </label>
-                <select
-                  id="state"
-                  name="state"
-                  required
-                  value={formData.state}
-                  onChange={handleInputChange}
-                  className="w-full px-3 py-2.5 md:py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-colors text-sm md:text-xs"
-                >
-                  <option value="">Select State</option>
-                  <option value="NC">North Carolina</option>
-                  <option value="SC">South Carolina</option>
-                  <option value="VA">Virginia</option>
-                  <option value="TN">Tennessee</option>
-                  <option value="GA">Georgia</option>
-                  <option value="FL">Florida</option>
-                  <option value="other">Other</option>
-                </select>
-              </div>
-              <div>
-                <label htmlFor="zipCode" className="block text-xs md:text-[11px] font-medium text-gray-700 mb-1">
-                  ZIP *
-                </label>
-                <input
-                  type="text"
-                  id="zipCode"
-                  name="zipCode"
-                  required
-                  value={formData.zipCode}
-                  onChange={handleInputChange}
-                  className="w-full px-3 py-2.5 md:py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-colors text-sm md:text-xs"
-                />
-              </div>
-            </div>
-          </div>
-
-          {/* Sample Information */}
-          <div className="bg-white border border-gray-200 rounded-lg p-4 md:p-3">
-            <h2 className="text-sm font-semibold text-gray-900 mb-3">Sample Specifications</h2>
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
-              <div>
-                <label htmlFor="sampleType" className="block text-xs md:text-[11px] font-medium text-gray-700 mb-1">
-                  Matrix Type *
-                </label>
-                <select
-                  id="sampleType"
-                  name="sampleType"
-                  required
-                  value={formData.sampleType}
-                  onChange={handleInputChange}
-                  className="w-full px-3 py-2.5 md:py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-colors text-sm md:text-xs"
-                >
-                  <option value="">Select Matrix</option>
-                  <option value="flower">Flower/Biomass</option>
-                  <option value="concentrate">Concentrate/Extract</option>
-                  <option value="edible">Edible Product</option>
-                  <option value="topical">Topical Product</option>
-                  <option value="tincture">Tincture/Oil</option>
-                  <option value="other">Other</option>
-                </select>
-              </div>
-              <div>
-                <label htmlFor="productType" className="block text-xs md:text-[11px] font-medium text-gray-700 mb-1">
-                  Cannabinoid Class *
-                </label>
-                <select
-                  id="productType"
-                  name="productType"
-                  required
-                  value={formData.productType}
-                  onChange={handleInputChange}
-                  className="w-full px-3 py-2.5 md:py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-colors text-sm md:text-xs"
-                >
-                  <option value="">Select Class</option>
-                  <option value="hemp">Hemp (≤0.3% THC)</option>
-                  <option value="cbd">CBD Dominant</option>
-                  <option value="delta8">Delta-8 THC</option>
-                  <option value="delta9">Delta-9 THC</option>
-                  <option value="other">Other Cannabinoid</option>
-                </select>
-              </div>
-              <div>
-                <label htmlFor="sampleQuantity" className="block text-xs md:text-[11px] font-medium text-gray-700 mb-1">
-                  Sample Mass *
-                </label>
-                <input
-                  type="text"
-                  id="sampleQuantity"
-                  name="sampleQuantity"
-                  required
-                  placeholder="10g, 2 units"
-                  value={formData.sampleQuantity}
-                  onChange={handleInputChange}
-                  className="w-full px-3 py-2.5 md:py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-colors text-sm md:text-xs"
-                />
-              </div>
-              <div>
-                <label htmlFor="batchSize" className="block text-xs md:text-[11px] font-medium text-gray-700 mb-1">
-                  Lot Size
-                </label>
-                <input
-                  type="text"
-                  id="batchSize"
-                  name="batchSize"
-                  placeholder="100 lbs, 500 units"
-                  value={formData.batchSize}
-                  onChange={handleInputChange}
-                  className="w-full px-3 py-2.5 md:py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-colors text-sm md:text-xs"
-                />
-              </div>
-              <div>
-                <label htmlFor="harvestDate" className="block text-xs md:text-[11px] font-medium text-gray-700 mb-1">
-                  Production Date
-                </label>
-                <input
-                  type="date"
-                  id="harvestDate"
-                  name="harvestDate"
-                  value={formData.harvestDate}
-                  onChange={handleInputChange}
-                  className="w-full px-3 py-2.5 md:py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-colors text-sm md:text-xs"
-                />
-              </div>
-              <div>
-                <label htmlFor="urgency" className="block text-xs md:text-[11px] font-medium text-gray-700 mb-1">
-                  Turnaround Time *
-                </label>
-                <select
-                  id="urgency"
-                  name="urgency"
-                  required
-                  value={formData.urgency}
-                  onChange={handleInputChange}
-                  className="w-full px-3 py-2.5 md:py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-colors text-sm md:text-xs"
-                >
-                  <option value="standard">Standard (5-7 days)</option>
-                  <option value="priority">Priority (3-5 days)</option>
-                  <option value="rush">Rush (24-48 hrs)</option>
-                </select>
-              </div>
-            </div>
-
-            {/* Testing Requested */}
-            <div className="mt-4 md:mt-3">
-              <label className="block text-xs md:text-[11px] font-medium text-gray-700 mb-2">
-                Analytical Methods * (Select all required)
-              </label>
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-2 md:gap-1.5">
-                {[
-                  'Cannabinoid Potency',
-                  'Terpene Profile',
-                  'Pesticide Screen',
-                  'Heavy Metals',
-                  'Microbial Analysis',
-                  'Residual Solvents',
-                  'Moisture Content',
-                  'Foreign Matter'
-                ].map((test) => (
-                  <label key={test} className="flex items-center space-x-3 md:space-x-2 p-3 md:p-2 rounded border border-gray-200 hover:bg-gray-50 transition-colors cursor-pointer">
-                    <input
-                      type="checkbox"
-                      name="testingRequested"
-                      value={test}
-                      onChange={handleInputChange}
-                      className="w-4 h-4 md:w-3 md:h-3 text-blue-600 border-gray-300 rounded focus:ring-blue-500"
-                    />
-                    <span className="text-xs md:text-[11px] text-gray-700">{test}</span>
-                  </label>
-                ))}
-              </div>
-            </div>
-          </div>
-
-          {/* Additional Information */}
-          <div className="bg-white border border-gray-200 rounded-lg p-4 md:p-3">
-            <h2 className="text-sm font-semibold text-gray-900 mb-3">Regulatory & Notes</h2>
-            <div className="space-y-3">
-              <div>
-                <label htmlFor="regulatoryCompliance" className="block text-xs md:text-[11px] font-medium text-gray-700 mb-1">
-                  Compliance Requirements
-                </label>
-                <select
-                  id="regulatoryCompliance"
-                  name="regulatoryCompliance"
-                  value={formData.regulatoryCompliance}
-                  onChange={handleInputChange}
-                  className="w-full px-3 py-2.5 md:py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-colors text-sm md:text-xs"
-                >
-                  <option value="">None specified</option>
-                  <option value="usda-organic">USDA Organic Certification</option>
-                  <option value="state-compliance">State Regulatory Compliance</option>
-                  <option value="third-party-verification">Third-Party Verification</option>
-                  <option value="other">Other Requirements</option>
-                </select>
-              </div>
-              <div>
-                <label htmlFor="specialInstructions" className="block text-xs md:text-[11px] font-medium text-gray-700 mb-1">
-                  Special Handling Instructions
-                </label>
-                <textarea
-                  id="specialInstructions"
-                  name="specialInstructions"
-                  rows={3}
-                  placeholder="Chain of custody requirements, special storage conditions, reporting specifications..."
-                  value={formData.specialInstructions}
-                  onChange={handleInputChange}
-                  className="w-full px-3 py-2.5 md:py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-colors resize-none text-sm md:text-xs"
-                />
-              </div>
-              <div>
-                <label className="flex items-center space-x-3 md:space-x-2">
-                  <input
-                    type="checkbox"
-                    name="previousClient"
-                    checked={formData.previousClient}
-                    onChange={handleInputChange}
-                    className="w-4 h-4 md:w-3 md:h-3 text-blue-600 border-gray-300 rounded focus:ring-blue-500"
-                  />
-                  <span className="text-xs md:text-[11px] text-gray-700">Existing client account</span>
-                </label>
-              </div>
-            </div>
-          </div>
-
-          {/* Submit Button */}
-          <div className="text-center pt-2">
-            <button
-              type="submit"
-              disabled={isSubmitting}
-              className={`apple-button px-8 py-3 md:py-2 ${
-                isSubmitting 
-                  ? 'opacity-50 cursor-not-allowed' 
-                  : ''
-              } transition-all duration-200`}
-            >
-              {isSubmitting ? (
-                <span className="flex items-center justify-center">
-                  <svg className="animate-spin -ml-1 mr-2 h-4 w-4 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
-                    <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
-                    <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
-                  </svg>
-                  Processing
-                </span>
-              ) : (
-                'Submit for Analysis'
-              )}
-            </button>
-            <p className="text-xs md:text-[11px] text-gray-500 mt-2">
-              Submission constitutes agreement to laboratory terms and conditions.
+            <p className="text-lg text-gray-600 max-w-xl mx-auto slide-up">
+              Start your testing process with our simple 3-step submission form
             </p>
           </div>
-        </form>
-      </div>
 
-      {/* Footer */}
-      <footer className="bg-gray-50 border-t border-gray-200 mt-6 md:mt-4">
-        <div className="max-w-6xl mx-auto px-4 py-4 md:py-3">
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
-            {/* Company Info */}
-            <div>
-              <h4 className="text-sm font-semibold text-gray-900 mb-2">Quantix Analytics</h4>
-              <div className="space-y-1 text-gray-600">
-                <p className="text-xs">5540 Centerview Dr Ste 204 #982095, Raleigh, NC 27606</p>
-                <p>
-                  <a href="mailto:support@quantixanalytics.com" className="text-xs hover:text-gray-900 transition-colors">
-                    support@quantixanalytics.com
-                  </a>
-                </p>
-              </div>
+          {/* Progress Steps */}
+          <div className="mb-8">
+            <div className="flex items-center justify-between mb-2">
+              {[1, 2, 3].map((step) => (
+                <div key={step} className="flex items-center flex-1">
+                  <div className={`
+                    w-10 h-10 rounded-full flex items-center justify-center font-semibold text-sm
+                    ${currentStep >= step 
+                      ? 'bg-blue-600 text-white' 
+                      : 'bg-gray-200 text-gray-600'}
+                    transition-colors
+                  `}>
+                    {step}
+                  </div>
+                  {step < 3 && (
+                    <div className={`
+                      flex-1 h-1 mx-2
+                      ${currentStep > step ? 'bg-blue-600' : 'bg-gray-200'}
+                      transition-colors
+                    `} />
+                  )}
+                </div>
+              ))}
             </div>
-
-            {/* Navigation Links */}
-            <div>
-              <h4 className="text-sm font-semibold text-gray-900 mb-2">Quick Links</h4>
-              <div className="flex flex-wrap gap-3 text-gray-600">
-                <Link href="/" className="text-xs hover:text-gray-900 transition-colors">Home</Link>
-                <Link href="/services" className="text-xs hover:text-gray-900 transition-colors">Services</Link>
-                <Link href="/submit-sample" className="text-xs hover:text-gray-900 transition-colors">Sample Submission</Link>
-                <Link href="/contact" className="text-xs hover:text-gray-900 transition-colors">Contact</Link>
-              </div>
+            <div className="flex justify-between text-xs text-gray-600">
+              <span>Contact Info</span>
+              <span>Sample Details</span>
+              <span>Testing Options</span>
             </div>
           </div>
 
-          {/* Copyright */}
-          <div className="border-t border-gray-200 pt-3 text-center text-xs text-gray-500">
-            <p className="mb-1">© 2025 Quantix Labs. All rights reserved.</p>
-            <p>Quantix Labs is an independent hemp testing facility.</p>
+          {/* Form Card */}
+          <Card className="p-6 md:p-8">
+            {submitStatus === 'error' && (
+              <div className="mb-6 p-4 bg-red-50 border border-red-200 rounded-lg">
+                <p className="text-red-700">Something went wrong. Please try again.</p>
+              </div>
+            )}
+
+            <form onSubmit={form.handleSubmit}>
+              {renderStepContent()}
+
+              <div className="flex gap-4 mt-8">
+                {currentStep > 1 && (
+                  <Button
+                    type="button"
+                    variant="secondary"
+                    onClick={prevStep}
+                    fullWidth
+                  >
+                    Previous
+                  </Button>
+                )}
+                
+                {currentStep < totalSteps ? (
+                  <Button
+                    type="button"
+                    onClick={nextStep}
+                    fullWidth
+                  >
+                    Next
+                  </Button>
+                ) : (
+                  <Button
+                    type="submit"
+                    fullWidth
+                    loading={form.isSubmitting}
+                  >
+                    Submit Sample
+                  </Button>
+                )}
+              </div>
+            </form>
+          </Card>
+
+          {/* Info Section */}
+          <div className="mt-8 grid grid-cols-1 md:grid-cols-3 gap-4">
+            <Card className="p-4 text-center">
+              <div className="w-12 h-12 bg-blue-100 rounded-full flex items-center justify-center mx-auto mb-3">
+                <svg className="w-6 h-6 text-blue-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
+                </svg>
+              </div>
+              <h3 className="font-semibold text-gray-900 mb-1">Fast Turnaround</h3>
+              <p className="text-sm text-gray-600">24-48 hour results</p>
+            </Card>
+            
+            <Card className="p-4 text-center">
+              <div className="w-12 h-12 bg-green-100 rounded-full flex items-center justify-center mx-auto mb-3">
+                <svg className="w-6 h-6 text-green-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z" />
+                </svg>
+              </div>
+              <h3 className="font-semibold text-gray-900 mb-1">State Certified</h3>
+              <p className="text-sm text-gray-600">Full compliance testing</p>
+            </Card>
+            
+            <Card className="p-4 text-center">
+              <div className="w-12 h-12 bg-purple-100 rounded-full flex items-center justify-center mx-auto mb-3">
+                <svg className="w-6 h-6 text-purple-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 10V3L4 14h7v7l9-11h-7z" />
+                </svg>
+              </div>
+              <h3 className="font-semibold text-gray-900 mb-1">Digital Results</h3>
+              <p className="text-sm text-gray-600">Access via client portal</p>
+            </Card>
           </div>
         </div>
-      </footer>
-    </div>
+      </section>
+    </Layout>
   );
 }

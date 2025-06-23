@@ -1,216 +1,115 @@
 "use client";
 
+import { useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
-import { useState } from "react";
+import Layout from "@/components/Layout";
+import Button from "@/components/UI/Button";
+import Card from "@/components/UI/Card";
 
 export default function Home() {
-  const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
-
   return (
-    <div className="min-h-screen bg-white flex flex-col">
-      {/* Navigation Bar - Apple Style */}
-      <nav className="bg-white/80 backdrop-blur-md border-b border-gray-200/50 sticky top-0 z-50 glass-effect">
-        {/* Mobile Navigation - Edge to Edge */}
-        <div className="md:hidden">
-          <div className="flex items-center justify-between h-12 px-2">
-            <Link href="/" className="p-1">
-              <Image
-                src="/quantixlogo.png"
-                alt="Quantix Logo"
-                width={24}
-                height={24}
-                className="w-6 h-6"
-              />
-            </Link>
-            
-            <button
-              onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-              className="p-1 text-gray-600 hover:text-gray-900 transition-colors"
-              aria-label="Toggle mobile menu"
-            >
-              <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                {mobileMenuOpen ? (
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
-                ) : (
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 6h16M4 12h16M4 18h16" />
-                )}
-              </svg>
-            </button>
-          </div>
-        </div>
-        
-        {/* Desktop Navigation */}
-        <div className="hidden md:block max-w-6xl mx-auto px-4">
-          <div className="flex items-center h-9 relative">
-            <Link href="/" className="flex items-center space-x-2">
-              <Image
-                src="/quantixlogo.png"
-                alt="Quantix Logo"
-                width={24}
-                height={24}
-                className="w-6 h-6"
-              />
-            </Link>
-            
-            {/* Desktop Navigation - Centered */}
-            <div className="flex items-center space-x-6 absolute left-1/2 transform -translate-x-1/2">
-              <Link href="/" className="text-xs text-gray-900 font-medium">
-                Home
-              </Link>
-              <Link href="/about" className="text-xs text-gray-600 hover:text-gray-900 transition-colors font-medium">
-                About
-              </Link>
-              <Link href="/services" className="text-xs text-gray-600 hover:text-gray-900 transition-colors font-medium">
-                Services
-              </Link>
-              <Link href="/client-portal" className="text-xs text-gray-600 hover:text-gray-900 transition-colors font-medium">
-                Client Portal
-              </Link>
-            </div>
-
-            {/* Submit Sample Button - Right Side */}
-            <div className="flex ml-auto w-64 justify-end">
-              <Link href="/submit-sample" className="apple-button">
-                Submit Sample
-              </Link>
-            </div>
-          </div>
-        </div>
-
-        {/* Mobile Menu */}
-        {mobileMenuOpen && (
-          <div className="md:hidden border-t border-gray-200/50 bg-white/95 backdrop-blur-md">
-            <div className="py-3 space-y-1">
-                <Link 
-                  href="/" 
-                  className="block px-4 py-3 text-sm text-gray-900 font-medium hover:bg-gray-50 transition-colors"
-                  onClick={() => setMobileMenuOpen(false)}
-                >
-                  Home
-                </Link>
-                <Link 
-                  href="/about" 
-                  className="block px-4 py-3 text-sm text-gray-700 hover:text-gray-900 hover:bg-gray-50 transition-colors"
-                  onClick={() => setMobileMenuOpen(false)}
-                >
-                  About
-                </Link>
-                <Link 
-                  href="/services" 
-                  className="block px-4 py-3 text-sm text-gray-700 hover:text-gray-900 hover:bg-gray-50 transition-colors"
-                  onClick={() => setMobileMenuOpen(false)}
-                >
-                  Services
-                </Link>
-                <Link 
-                  href="/client-portal" 
-                  className="block px-4 py-3 text-sm text-gray-700 hover:text-gray-900 hover:bg-gray-50 transition-colors"
-                  onClick={() => setMobileMenuOpen(false)}
-                >
-                  Client Portal
-                </Link>
-                <div className="px-4 pt-2 pb-3">
-                  <Link 
-                    href="/submit-sample" 
-                    className="apple-button w-full text-center"
-                    onClick={() => setMobileMenuOpen(false)}
-                  >
-                    Submit Sample
-                  </Link>
-                </div>
-              </div>
-            </div>
-          )}
-      </nav>
-
-      {/* Hero Section - Large and Centered */}
+    <Layout currentPage="home">
+      {/* Hero Section */}
       <section className="relative bg-white min-h-[80vh] md:min-h-[calc(100vh-4rem)] flex items-center justify-center px-4 gradient-mesh">
-        <div className="max-w-5xl mx-auto text-center py-8 relative">
-          {/* Mobile-only subtle content shadow */}
-          <div className="md:hidden absolute inset-0 bg-gradient-to-b from-transparent via-white/5 to-white/10 rounded-3xl blur-3xl -z-10"></div>
-          
-          {/* Logo and Brand */}
-          <div className="flex items-center justify-center mb-8 md:mb-8 fade-in -space-x-2">
-            <div className="relative">
-              <div className="absolute inset-0 bg-blue-500 rounded-full blur-2xl opacity-25 animate-pulse"></div>
-              <Image
-                src="/quantixlogo.png"
-                alt="Quantix Logo"
-                width={80}
-                height={80}
-                className="w-20 h-20 md:w-20 md:h-20 relative z-10 drop-shadow-lg"
-              />
-            </div>
-            <h1 className="text-5xl md:text-5xl font-bold text-gray-900 tracking-tight">
-              Quantix
+        <div className="max-w-4xl mx-auto text-center py-16 md:py-12 relative">
+          <div className="fade-in">
+            <h1 className="text-5xl md:text-6xl font-bold text-gray-900 mb-6 tracking-tight">
+              Cannabis Testing
+              <span className="block text-blue-600">Redefined</span>
             </h1>
+            <p className="text-lg md:text-xl text-gray-600 mb-8 max-w-2xl mx-auto">
+              Professional lab results in 24-48 hours. State-certified testing for potency, 
+              pesticides, microbials, and heavy metals.
+            </p>
+            <div className="flex flex-col sm:flex-row gap-4 justify-center">
+              <Button href="/submit-sample" size="large">
+                Submit Sample
+              </Button>
+              <Button href="/services" variant="secondary" size="large">
+                View Services
+              </Button>
+            </div>
           </div>
 
-          {/* Main Headline */}
-          <h2 className="text-2xl md:text-4xl font-semibold text-gray-900 tracking-tight leading-tight mb-6 md:mb-6 slide-up">
-            Accurate. Compliant. Fast.
-          </h2>
-          
-          {/* Subheading */}
-          <p className="text-lg md:text-xl text-gray-600 mb-8 md:mb-8 max-w-4xl mx-auto font-light leading-relaxed slide-up px-2">
-            Based in Charlotte, North Carolina, Quantix delivers precision analytics for hemp products—built to meet regulatory, financial, and commercial standards without delay.
-          </p>
-          
-          {/* CTA Buttons */}
-          <div className="flex flex-col sm:flex-row gap-4 md:gap-4 justify-center items-center slide-up">
-            <Link href="/submit-sample" className="apple-button text-lg md:text-lg px-8 md:px-8 py-4 md:py-4 w-full sm:w-auto font-medium">
-              Submit Sample
-            </Link>
-            <Link href="/about" className="apple-button-secondary text-lg md:text-lg px-8 md:px-8 py-4 md:py-4 w-full sm:w-auto font-medium">
-              Learn More
-            </Link>
+          {/* Trust Indicators */}
+          <div className="mt-16 md:mt-12 grid grid-cols-3 gap-8 max-w-3xl mx-auto">
+            <div className="text-center slide-up">
+              <div className="text-3xl md:text-4xl font-bold text-gray-900 animate-number">24hr</div>
+              <div className="text-sm text-gray-600 mt-1">Turnaround</div>
+            </div>
+            <div className="text-center slide-up" style={{ animationDelay: '0.1s' }}>
+              <div className="text-3xl md:text-4xl font-bold text-gray-900 animate-number">99.9%</div>
+              <div className="text-sm text-gray-600 mt-1">Accuracy</div>
+            </div>
+            <div className="text-center slide-up" style={{ animationDelay: '0.2s' }}>
+              <div className="text-3xl md:text-4xl font-bold text-gray-900 animate-number">ISO</div>
+              <div className="text-sm text-gray-600 mt-1">Certified</div>
+            </div>
           </div>
-
-
         </div>
-
-        {/* Background decoration */}
-        <div className="absolute bottom-0 left-0 right-0 h-32 bg-gradient-to-t from-gray-50 to-transparent opacity-50"></div>
       </section>
 
-      {/* Footer */}
-      <footer className="bg-gray-50 border-t border-gray-200 mt-6 md:mt-4">
-        <div className="max-w-6xl mx-auto px-4 py-4 md:py-3">
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
-            {/* Company Info */}
-            <div>
-              <h4 className="text-sm font-semibold text-gray-900 mb-2">Quantix Analytics</h4>
-              <div className="space-y-1 text-gray-600">
-                <p className="text-xs">5540 Centerview Dr Ste 204 #982095, Raleigh, NC 27606</p>
-                <p>
-                  <a href="mailto:support@quantixanalytics.com" className="text-xs hover:text-gray-900 transition-colors">
-                    support@quantixanalytics.com
-                  </a>
-                </p>
+      {/* Services Preview */}
+      <section className="py-16 px-4 bg-gray-50">
+        <div className="max-w-6xl mx-auto">
+          <h2 className="text-3xl font-bold text-center mb-12">Our Testing Services</h2>
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+            <Card hover className="p-6">
+              <div className="w-12 h-12 bg-blue-100 rounded-lg flex items-center justify-center mb-4">
+                <svg className="w-6 h-6 text-blue-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
+                </svg>
               </div>
-            </div>
-
-            {/* Navigation Links */}
-            <div>
-              <h4 className="text-sm font-semibold text-gray-900 mb-2">Quick Links</h4>
-              <div className="flex flex-wrap gap-3 text-gray-600">
-                <Link href="/" className="text-xs hover:text-gray-900 transition-colors">Home</Link>
-                <Link href="/services" className="text-xs hover:text-gray-900 transition-colors">Services</Link>
-                <Link href="/submit-sample" className="text-xs hover:text-gray-900 transition-colors">Sample Submission</Link>
-                <Link href="/contact" className="text-xs hover:text-gray-900 transition-colors">Contact</Link>
+              <h3 className="font-semibold text-lg mb-2">Potency Testing</h3>
+              <p className="text-gray-600 text-sm">Accurate cannabinoid profiling for THC, CBD, and more</p>
+            </Card>
+            
+            <Card hover className="p-6">
+              <div className="w-12 h-12 bg-green-100 rounded-lg flex items-center justify-center mb-4">
+                <svg className="w-6 h-6 text-green-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 6V4m0 2a2 2 0 100 4m0-4a2 2 0 110 4m-6 8a2 2 0 100-4m0 4a2 2 0 110-4m0 4v2m0-6V4m6 6v10m6-2a2 2 0 100-4m0 4a2 2 0 110-4m0 4v2m0-6V4" />
+                </svg>
               </div>
-            </div>
-          </div>
-
-          {/* Copyright */}
-          <div className="border-t border-gray-200 pt-3 text-center text-xs text-gray-500">
-            <p className="mb-1">© 2025 Quantix Labs. All rights reserved.</p>
-            <p>Quantix Labs is an independent hemp testing facility.</p>
+              <h3 className="font-semibold text-lg mb-2">Pesticide Screening</h3>
+              <p className="text-gray-600 text-sm">Comprehensive testing for harmful pesticides</p>
+            </Card>
+            
+            <Card hover className="p-6">
+              <div className="w-12 h-12 bg-purple-100 rounded-lg flex items-center justify-center mb-4">
+                <svg className="w-6 h-6 text-purple-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19.428 15.428a2 2 0 00-1.022-.547l-2.387-.477a6 6 0 00-3.86.517l-.318.158a6 6 0 01-3.86.517L6.05 15.21a2 2 0 00-1.806.547M8 4h8l-1 1v5.172a2 2 0 00.586 1.414l5 5c1.26 1.26.367 3.414-1.415 3.414H4.828c-1.782 0-2.674-2.154-1.414-3.414l5-5A2 2 0 009 10.172V5L8 4z" />
+                </svg>
+              </div>
+              <h3 className="font-semibold text-lg mb-2">Microbial Testing</h3>
+              <p className="text-gray-600 text-sm">Detection of mold, yeast, and harmful bacteria</p>
+            </Card>
+            
+            <Card hover className="p-6">
+              <div className="w-12 h-12 bg-red-100 rounded-lg flex items-center justify-center mb-4">
+                <svg className="w-6 h-6 text-red-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 18h.01M8 21h8a2 2 0 002-2V5a2 2 0 00-2-2H8a2 2 0 00-2 2v14a2 2 0 002 2z" />
+                </svg>
+              </div>
+              <h3 className="font-semibold text-lg mb-2">Heavy Metals</h3>
+              <p className="text-gray-600 text-sm">Testing for lead, mercury, cadmium, and arsenic</p>
+            </Card>
           </div>
         </div>
-      </footer>
+      </section>
 
-    </div>
+      {/* CTA Section */}
+      <section className="py-16 px-4 bg-white">
+        <div className="max-w-4xl mx-auto text-center">
+          <h2 className="text-3xl font-bold mb-4">Ready to Get Started?</h2>
+          <p className="text-lg text-gray-600 mb-8">
+            Submit your samples today and get results within 24-48 hours
+          </p>
+          <Button href="/submit-sample" size="large">
+            Submit Your Sample
+          </Button>
+        </div>
+      </section>
+    </Layout>
   );
 }
