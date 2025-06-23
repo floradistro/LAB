@@ -561,8 +561,9 @@ export default function ClientPortal() {
         </div>
       </nav>
 
-      <main className="flex-1 max-w-md mx-auto px-4 py-6">
-        <div className="flex justify-center">
+      <main className="flex-1 flex flex-col">
+        <div className="max-w-md mx-auto px-4 py-6 w-full">
+          <div className="flex justify-center">
           {/* Login/Register Form */}
           <div className="w-full">
             <div className="bg-white rounded-2xl shadow-xl border border-gray-100 p-5 sticky top-20">
@@ -731,6 +732,7 @@ export default function ClientPortal() {
           </div>
 
 
+        </div>
         </div>
       </main>
 

@@ -70,6 +70,7 @@ body {
   letter-spacing: -0.022em;
   /* Improve scroll performance */
   -webkit-overflow-scrolling: touch;
+  overscroll-behavior-y: none;
   min-height: 100vh;
   /* Prevent scroll anchoring issues */
   overflow-anchor: none;
@@ -418,31 +419,31 @@ body {
 /* Optimize mobile scrolling */
 @media (max-width: 768px) {
   /* Reset any problematic scroll behaviors */
-  html {
-    height: 100%;
+  html, body {
+    height: auto;
+    min-height: 100vh;
     overflow-x: hidden;
   }
   
   body {
-    height: 100%;
-    min-height: 100vh;
-    overflow-x: hidden;
+    /* Prevent overscroll bounce */
+    overscroll-behavior: none;
     -webkit-overflow-scrolling: touch;
     position: relative;
   }
   
   /* Disable transforms on mobile for better scroll performance */
-  .pro-card:hover,
-  .apple-button:hover,
-  .apple-button-secondary:hover {
+  .pro-card,
+  .apple-button,
+  .apple-button-secondary {
     transform: none !important;
+    transition: none !important;
   }
   
-  /* Keep animations but optimize them */
+  /* Reduce animations on mobile */
   .fade-in,
   .slide-up {
-    animation-fill-mode: both;
-    will-change: auto;
+    animation: none !important;
   }
 }
 
@@ -542,48 +543,21 @@ footer {
 
 /* Prevent scroll jump on mobile */
 @media (max-width: 768px) {
-  /* Ensure proper height calculation */
-  .min-h-screen {
-    min-height: 100vh;
-    min-height: -webkit-fill-available;
-  }
-  
   /* Add padding to prevent content from being too close to viewport edge */
   footer {
     padding-bottom: env(safe-area-inset-bottom, 20px);
-    position: relative;
-    z-index: 1;
   }
   
   /* Ensure main content takes up space */
-  main {
+  main, 
+  .min-h-screen > *:not(footer) {
     flex: 1 0 auto;
-    position: relative;
   }
   
-  /* Footer positioning */
+  /* Footer should not cause scroll issues */
   footer {
     flex-shrink: 0;
+    position: relative;
     margin-top: auto;
-  }
-  
-  /* Fix for sticky nav causing stutter */
-  nav.sticky {
-    -webkit-transform: translateZ(0);
-    transform: translateZ(0);
-    will-change: transform;
-    -webkit-backface-visibility: hidden;
-    backface-visibility: hidden;
-  }
-  
-  /* Prevent layout shift on scroll */
-  .min-h-screen {
-    contain: layout style;
-  }
-  
-  /* Smooth scroll with momentum */
-  html, body {
-    scroll-behavior: auto;
-    -webkit-overflow-scrolling: touch;
   }
 }

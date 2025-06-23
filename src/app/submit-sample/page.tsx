@@ -87,7 +87,7 @@ export default function SubmitSample() {
         </nav>
 
         {/* Success Message */}
-        <div className="min-h-[calc(100vh-3rem)] md:min-h-[calc(100vh-4rem)] flex items-center justify-center px-4">
+        <main className="flex-1 flex items-center justify-center px-4">
           <div className="max-w-2xl mx-auto text-center">
             <div className="w-12 h-12 bg-green-100 rounded-full flex items-center justify-center mx-auto mb-4">
               <svg className="w-6 h-6 text-green-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -129,7 +129,7 @@ export default function SubmitSample() {
               </Link>
             </div>
           </div>
-        </div>
+        </main>
       </div>
     );
   }
@@ -246,7 +246,8 @@ export default function SubmitSample() {
       </nav>
 
       {/* Main Content */}
-      <main className="flex-1 max-w-4xl mx-auto px-4 py-6 md:py-4">
+      <main className="flex-1 flex flex-col">
+        <div className="max-w-4xl mx-auto px-4 py-6 md:py-4 w-full">
         <div className="text-center mb-6 md:mb-4">
           <div className="flex items-center justify-center mb-4 md:mb-6 fade-in -space-x-2">
             <div className="relative">
@@ -615,6 +616,7 @@ export default function SubmitSample() {
             </p>
           </div>
         </form>
+        </div>
       </main>
 
       {/* Footer */}

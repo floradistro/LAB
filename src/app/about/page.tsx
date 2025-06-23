@@ -125,7 +125,8 @@ export default function About() {
       </nav>
 
       {/* Main Content */}
-      <main className="flex-1 max-w-4xl mx-auto px-4 py-6 md:py-4">
+      <main className="flex-1 flex flex-col">
+        <div className="max-w-4xl mx-auto px-4 py-6 md:py-4 w-full">
         <div className="text-center mb-6 md:mb-4">
           <div className="flex items-center justify-center mb-4 md:mb-6 fade-in -space-x-2">
             <div className="relative">
@@ -357,6 +358,7 @@ export default function About() {
             </div>
           </div>
         </section>
+        </div>
       </main>
 
       {/* Footer */}
