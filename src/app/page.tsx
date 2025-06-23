@@ -125,8 +125,8 @@ export default function Home() {
       </nav>
 
       {/* Hero Section - Large and Centered */}
-      <main className="flex-1 flex flex-col">
-        <section className="relative bg-white min-h-[80vh] md:min-h-[calc(100vh-4rem)] flex items-center justify-center px-4 gradient-mesh flex-1">
+      <main className="flex-1">
+        <section className="relative bg-white min-h-[80vh] md:min-h-[calc(100vh-4rem)] flex items-center justify-center px-4 gradient-mesh">
           <div className="max-w-5xl mx-auto text-center py-8 relative">
           {/* Mobile-only subtle content shadow */}
           <div className="md:hidden absolute inset-0 bg-gradient-to-b from-transparent via-white/5 to-white/10 rounded-3xl blur-3xl -z-10"></div>
