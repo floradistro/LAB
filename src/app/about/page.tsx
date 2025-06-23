@@ -158,7 +158,7 @@ export default function About() {
               <p className="text-xs">
                 As operators in the cannabis supply chain, we experienced firsthand the delays, inconsistencies, 
                 and outdated methods that plague traditional testing labs. Slow turnaround times, vague reporting, 
-                and lab errors don&apos;t just hurt margins—they delay launches, stall sales, and put compliance at risk.
+                and lab errors don't just hurt margins—they delay launches, stall sales, and put compliance at risk.
               </p>
               <div className="bg-blue-50 border-l-4 border-blue-500 p-2 my-2">
                 <p className="text-xs font-medium text-gray-900">
@@ -167,7 +167,7 @@ export default function About() {
               </div>
               <p className="text-xs">
                 Our mission is simple: deliver accurate, compliant test results—fast. Because in this industry, 
-                every second matters. Products need to hit shelves without delay, whether you&apos;re a farm, retailer, 
+                every second matters. Products need to hit shelves without delay, whether you're a farm, retailer, 
                 or distributor. We designed our lab around that urgency.
               </p>
             </div>
@@ -188,7 +188,7 @@ export default function About() {
                 enable us to deliver fast, reliable results wherever your operation is based.
               </p>
               <p className="text-xs font-medium text-gray-900">
-                Whether you&apos;re a local cultivator or a national brand, we&apos;re structured to move fast and deliver clarity.
+                Whether you're a local cultivator or a national brand, we're structured to move fast and deliver clarity.
               </p>
             </div>
           </div>
@@ -326,15 +326,15 @@ export default function About() {
             </h3>
             <div className="space-y-2 text-gray-700 leading-relaxed">
               <p className="text-xs font-medium text-gray-900">
-                We don&apos;t believe in waiting a week for test results that barely tell you anything.
+                We don't believe in waiting a week for test results that barely tell you anything.
               </p>
               <p className="text-xs">
-                We built Quantix to support operators who move fast and don&apos;t have time for guesswork. 
+                We built Quantix to support operators who move fast and don't have time for guesswork. 
                 Our systems are tuned for precision, compliance, and real-world cannabis logistics.
               </p>
               <p className="text-xs">
-                If you&apos;re a cultivator, formulator, processor, or brand, you need results you can trust—and 
-                you need them without delay. That&apos;s what we do.
+                If you're a cultivator, formulator, processor, or brand, you need results you can trust—and 
+                you need them without delay. That's what we do.
               </p>
             </div>
           </div>

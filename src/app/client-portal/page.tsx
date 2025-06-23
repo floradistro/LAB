@@ -363,7 +363,7 @@ export default function ClientPortal() {
             </div>
             
             <div className="bg-white rounded-lg border border-gray-200 p-6">
-              <p className="text-gray-600">This section is coming soon. We&apos;re working on adding more features to enhance your testing experience.</p>
+              <p className="text-gray-600">This section is coming soon. We're working on adding more features to enhance your testing experience.</p>
             </div>
           </div>
         );
@@ -716,7 +716,7 @@ export default function ClientPortal() {
 
                 <div className="text-center pt-4 border-t border-gray-100">
                   <p className="text-sm text-gray-600">
-                    {isLogin ? "Don&apos;t have an account?" : "Already have an account?"}
+                    {isLogin ? "Don't have an account?" : "Already have an account?"}
                     <button
                       type="button"
                       onClick={() => setIsLogin(!isLogin)}

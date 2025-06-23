@@ -64,9 +64,6 @@ export default function Contact() {
               <Link href="/services" className="text-xs text-gray-600 hover:text-gray-900 transition-colors font-medium">
                 Services
               </Link>
-              <Link href="/contact" className="text-xs text-gray-900 font-medium">
-                Contact
-              </Link>
               <Link href="/client-portal" className="text-xs text-gray-600 hover:text-gray-900 transition-colors font-medium">
                 Client Portal
               </Link>
@@ -105,13 +102,6 @@ export default function Contact() {
                 onClick={() => setMobileMenuOpen(false)}
               >
                 Services
-              </Link>
-              <Link 
-                href="/contact" 
-                className="block px-4 py-3 text-sm text-gray-900 font-medium hover:bg-gray-50 transition-colors"
-                onClick={() => setMobileMenuOpen(false)}
-              >
-                Contact
               </Link>
               <Link 
                 href="/client-portal" 
@@ -255,7 +245,7 @@ export default function Contact() {
             </h3>
             <p className="text-xs text-gray-600 mb-3 max-w-2xl mx-auto">
               Our team is here to help you understand our testing processes, turnaround times, 
-              and how we can support your cannabis operation. Don&apos;t hesitate to reach out.
+              and how we can support your cannabis operation. Don't hesitate to reach out.
             </p>
             <div className="flex flex-col sm:flex-row gap-2 justify-center">
               <a 
