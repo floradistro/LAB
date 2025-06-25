@@ -37,7 +37,7 @@ const COAViewer = () => {
               <img 
                 src="/quantixlogo.png" 
                 alt="Quantix Analytics Logo" 
-                className="h-12 w-auto"
+                className="h-6 w-auto"
               />
               <div>
                 <h1 className="text-2xl sm:text-3xl font-bold text-gray-900">
