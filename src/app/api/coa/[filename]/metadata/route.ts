@@ -1,9 +1,8 @@
 import { createClient } from '@supabase/supabase-js'
 import { NextRequest, NextResponse } from 'next/server'
-
 const supabase = createClient(
   'https://elhsobjvwmjfminxxcwy.supabase.co',
-  process.env.SUPABASE_SERVICE_ROLE_KEY || 'dummy-key-for-development'
+  process.env.SUPABASE_SERVICE_ROLE_KEY!
 )
 
 export async function GET(
@@ -16,17 +15,6 @@ export async function GET(
     return NextResponse.json({ error: 'Invalid filename' }, { status: 400 })
   }
 
-  // Temporarily return a fallback date while we resolve PDF parsing issues
-  // This ensures the COA page loads properly
-  const today = new Date().toISOString().split('T')[0]
-  
-  return NextResponse.json({
-    completionDate: today,
-    filename,
-    message: 'PDF parsing temporarily disabled - using current date as fallback'
-  })
-
-  /* PDF parsing code disabled temporarily due to Node.js compatibility issues
   const filePath = `pdfs/${filename}.pdf`
 
   try {
@@ -43,101 +31,56 @@ export async function GET(
       return NextResponse.json({ error: 'Failed to fetch PDF' }, { status: 500 })
     }
 
-    const arrayBuffer = await response.arrayBuffer()
+    const buffer = await response.arrayBuffer()
     
-    // Dynamic import of pdfjs-dist legacy build for Node.js compatibility
-    const pdfjsLib = await import('pdfjs-dist/legacy/build/pdf.js')
+    // Dynamic import to avoid build issues
+    const pdf = (await import('pdf-parse')).default
+    const pdfData = await pdf(Buffer.from(buffer))
     
-    // Load the PDF document
-    const loadingTask = pdfjsLib.getDocument({ data: arrayBuffer })
-    const pdf = await loadingTask.promise
+    // Extract completion date from PDF text
+    const text = pdfData.text
     
-    // Extract text from all pages
-    let fullText = ''
-    for (let pageNum = 1; pageNum <= pdf.numPages; pageNum++) {
-      const page = await pdf.getPage(pageNum)
-      const textContent = await page.getTextContent()
-      const pageText = textContent.items
-        .filter((item: unknown) => typeof item === 'object' && item !== null && 'str' in item)
-        .map((item: unknown) => (item as { str: string }).str)
-        .join(' ')
-      fullText += pageText + '\n'
-    }
-    
-    // Look for completion date patterns
+    // Look for various date patterns that might indicate completion date
     const datePatterns = [
-      /[Cc]ompleted[:\s]+(\d{1,2}[-\/]\d{1,2}[-\/]\d{2,4})/,
-      /[Cc]ompletion\s+[Dd]ate[:\s]+(\d{1,2}[-\/]\d{1,2}[-\/]\d{2,4})/,
-      /[Tt]est\s+[Dd]ate[:\s]+(\d{1,2}[-\/]\d{1,2}[-\/]\d{2,4})/,
-      /[Aa]nalysis\s+[Dd]ate[:\s]+(\d{1,2}[-\/]\d{1,2}[-\/]\d{2,4})/,
-      /[Rr]eport\s+[Dd]ate[:\s]+(\d{1,2}[-\/]\d{1,2}[-\/]\d{2,4})/,
-      /[Dd]ate\s+[Cc]ompleted[:\s]+(\d{1,2}[-\/]\d{1,2}[-\/]\d{2,4})/,
-      /[Dd]ate\s+[Tt]ested[:\s]+(\d{1,2}[-\/]\d{1,2}[-\/]\d{2,4})/,
-      /[Dd]ate\s+of\s+[Aa]nalysis[:\s]+(\d{1,2}[-\/]\d{1,2}[-\/]\d{2,4})/,
-      // Also check for dates in format like "January 26, 2025"
-      /[Cc]ompleted[:\s]+(\w+\s+\d{1,2},\s+\d{4})/,
-      /[Cc]ompletion\s+[Dd]ate[:\s]+(\w+\s+\d{1,2},\s+\d{4})/,
-      /[Tt]est\s+[Dd]ate[:\s]+(\w+\s+\d{1,2},\s+\d{4})/,
+      /completed[:\s]*(\d{1,2}\/\d{1,2}\/\d{4})/i,
+      /completion[:\s]*(\d{1,2}\/\d{1,2}\/\d{4})/i,
+      /finished[:\s]*(\d{1,2}\/\d{1,2}\/\d{4})/i,
+      /date[:\s]*(\d{1,2}\/\d{1,2}\/\d{4})/i,
+      /(\d{1,2}\/\d{1,2}\/\d{4})/g // fallback to any date pattern
     ]
     
     let completionDate = null
     
-    // Try each pattern to find a completion date
     for (const pattern of datePatterns) {
-      const match = fullText.match(pattern)
-      if (match && match[1]) {
+      const match = text.match(pattern)
+      if (match) {
         completionDate = match[1]
-        // Normalize date format
-        try {
-          const parsedDate = new Date(completionDate)
-          if (!isNaN(parsedDate.getTime())) {
-            completionDate = parsedDate.toISOString().split('T')[0]
-          }
-        } catch {
-          // Keep original format if parsing fails
-        }
         break
       }
     }
     
-    // If no specific completion date found, look for any date that might be relevant
+    // If no specific completion date found, try to find the most recent date
     if (!completionDate) {
-      // Look for dates near keywords
-      const contextPatterns = [
-        /(?:completed|tested|analyzed|finished|conducted)(?:.{0,50}?)(\d{1,2}[-\/]\d{1,2}[-\/]\d{2,4})/i,
-        /(\d{1,2}[-\/]\d{1,2}[-\/]\d{2,4})(?:.{0,50}?)(?:completed|tested|analyzed|finished|conducted)/i,
-      ]
-      
-      for (const pattern of contextPatterns) {
-        const match = fullText.match(pattern)
-        if (match && match[1]) {
-          completionDate = match[1]
-          try {
-            const parsedDate = new Date(completionDate)
-            if (!isNaN(parsedDate.getTime())) {
-              completionDate = parsedDate.toISOString().split('T')[0]
-            }
-          } catch {
-            // Keep original format if parsing fails
-          }
-          break
-        }
+      const allDates = text.match(/\d{1,2}\/\d{1,2}\/\d{4}/g)
+      if (allDates && allDates.length > 0) {
+        // Sort dates and take the most recent one
+        const sortedDates = allDates.sort((a: string, b: string) => {
+          const dateA = new Date(a)
+          const dateB = new Date(b)
+          return dateB.getTime() - dateA.getTime()
+        })
+        completionDate = sortedDates[0]
       }
     }
 
     return NextResponse.json({
       completionDate,
       filename,
-      extractedText: fullText.substring(0, 1000), // First 1000 chars for debugging
-      message: completionDate ? 'Date extracted successfully' : 'No completion date found in PDF'
+      extractedText: text.substring(0, 500) // First 500 chars for debugging
     })
 
   } catch (error) {
     console.error('Error parsing PDF:', error)
-    return NextResponse.json({ 
-      error: 'Failed to parse PDF',
-      details: error instanceof Error ? error.message : 'Unknown error'
-    }, { status: 500 })
+    return NextResponse.json({ error: 'Failed to parse PDF' }, { status: 500 })
   }
-  */
 } 
