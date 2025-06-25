@@ -19,7 +19,7 @@ const COAViewer = () => {
   }, [])
 
   if (!filename) return (
-    <div className="min-h-screen bg-gray-50 flex items-center justify-center p-4">
+    <div className="min-h-screen bg-gradient-to-br from-gray-50 to-gray-100 flex items-center justify-center p-4">
       <div className="text-center">
         <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-gray-900 mx-auto mb-4"></div>
         <p className="text-gray-600">Loading Certificate of Analysis...</p>
@@ -28,30 +28,22 @@ const COAViewer = () => {
   )
 
   return (
-    <div className="min-h-screen bg-gray-50">
+    <div className="min-h-screen bg-gradient-to-br from-gray-50 to-gray-100">
       {/* Header */}
       <div className="bg-white shadow-sm border-b border-gray-200">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6">
           <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
-            <div className="flex items-center gap-3">
-              {/* Logo */}
-              <img 
-                src="/quantixlogo.png" 
-                alt="Quantix Analytics" 
-                className="h-10 w-auto"
-              />
-              <div>
-                <h1 className="text-xl sm:text-2xl font-bold text-gray-900">
-                  Certificate of Analysis
-                </h1>
-                <p className="text-sm text-gray-600">
-                  Sample ID: <span className="font-mono font-medium">{filename}</span>
-                </p>
-              </div>
+            <div>
+              <h1 className="text-2xl sm:text-3xl font-bold text-gray-900">
+                Certificate of Analysis
+              </h1>
+              <p className="text-sm sm:text-base text-gray-600 mt-1">
+                Sample ID: <span className="font-mono font-medium">{filename}</span>
+              </p>
             </div>
             {/* Authentic Badge */}
             <div className="flex items-center gap-2 bg-green-50 border-2 border-green-500 rounded-lg px-4 py-2">
-              <svg className="w-5 h-5 text-green-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <svg className="w-6 h-6 text-green-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
               </svg>
               <span className="font-semibold text-green-800">Verified Authentic</span>
@@ -60,10 +52,9 @@ const COAViewer = () => {
         </div>
       </div>
 
-      {/* Main Content */}
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
-        {/* COA Info Cards */}
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 mb-8">
+      {/* COA Info Cards - Mobile Optimized */}
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 mb-6">
           <div className="bg-white rounded-lg shadow-sm p-4 border border-gray-200">
             <h3 className="text-sm font-medium text-gray-500 mb-1">Test Date</h3>
             <p className="text-lg font-semibold text-gray-900">
@@ -71,7 +62,7 @@ const COAViewer = () => {
             </p>
           </div>
           <div className="bg-white rounded-lg shadow-sm p-4 border border-gray-200">
-            <h3 className="text-sm font-medium text-gray-500 mb-1">Prepared For</h3>
+            <h3 className="text-sm font-medium text-gray-500 mb-1">Prepared for</h3>
             <p className="text-lg font-semibold text-gray-900">Flora Distribution Group LLC</p>
           </div>
           <div className="bg-white rounded-lg shadow-sm p-4 border border-gray-200">
@@ -114,7 +105,7 @@ const COAViewer = () => {
           )}
 
           {/* PDF Iframe */}
-          <div className="relative">
+          <div className="relative bg-gray-100">
             {loading && (
               <div className="absolute inset-0 flex items-center justify-center bg-white z-20">
                 <div className="text-center">
@@ -125,30 +116,32 @@ const COAViewer = () => {
             )}
             <iframe
               src={`/api/coa/${filename}`}
-              className={`w-full ${isMobile ? 'h-[600px]' : 'h-[800px] lg:h-[1000px]'} border-0 bg-white`}
+              className={`w-full ${isMobile ? 'h-[600px]' : 'h-[800px] lg:h-[1000px]'} border-0`}
               onLoad={() => setLoading(false)}
               title={`COA for ${filename}`}
             />
           </div>
         </div>
 
-        {/* Footer Actions */}
-        <div className="mt-8 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
-          <div>
-            <h3 className="font-semibold text-gray-900 mb-1">Document Verification</h3>
-            <p className="text-sm text-gray-600">
-              This certificate is electronically signed and verified by Quantix Analytics.
-            </p>
+        {/* Footer Info */}
+        <div className="mt-8 bg-gray-50 rounded-lg p-6 border border-gray-200">
+          <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
+            <div>
+              <h3 className="font-semibold text-gray-900 mb-1">Document Verification</h3>
+              <p className="text-sm text-gray-600">
+                This certificate is electronically signed and verified by Quantix Analytics.
+              </p>
+            </div>
+            <button
+              onClick={() => window.open(`/api/coa/${filename}`, '_blank')}
+              className="inline-flex items-center gap-2 bg-gray-900 text-white px-4 py-2 rounded-lg hover:bg-gray-800 transition-colors"
+            >
+              <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
+              </svg>
+              Download PDF
+            </button>
           </div>
-          <button
-            onClick={() => window.open(`/api/coa/${filename}`, '_blank')}
-            className="inline-flex items-center gap-2 bg-gray-900 text-white px-4 py-2 rounded-lg hover:bg-gray-800 transition-colors"
-          >
-            <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
-            </svg>
-            Download PDF
-          </button>
         </div>
       </div>
     </div>
