@@ -2,7 +2,6 @@
 
 import { useParams } from 'next/navigation'
 import { useState, useEffect } from 'react'
-import Layout from '@/components/Layout'
 
 const COAViewer = () => {
   const params = useParams()
@@ -20,23 +19,26 @@ const COAViewer = () => {
   }, [])
 
   if (!filename) return (
-    <Layout>
-      <div className="min-h-screen bg-gradient-to-br from-gray-50 to-gray-100 flex items-center justify-center p-4">
-        <div className="text-center">
-          <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-gray-900 mx-auto mb-4"></div>
-          <p className="text-gray-600">Loading Certificate of Analysis...</p>
-        </div>
+    <div className="min-h-screen bg-gradient-to-br from-gray-50 to-gray-100 flex items-center justify-center p-4">
+      <div className="text-center">
+        <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-gray-900 mx-auto mb-4"></div>
+        <p className="text-gray-600">Loading Certificate of Analysis...</p>
       </div>
-    </Layout>
+    </div>
   )
 
   return (
-    <Layout>
-      <div className="min-h-screen bg-gradient-to-br from-gray-50 to-gray-100">
-        {/* Header */}
-        <div className="bg-white shadow-sm border-b border-gray-200">
-          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6">
-            <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
+    <div className="min-h-screen bg-gradient-to-br from-gray-50 to-gray-100">
+      {/* Header */}
+      <div className="bg-white shadow-sm border-b border-gray-200">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6">
+          <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
+            <div className="flex items-center gap-4">
+              <img 
+                src="/quantixlogo.png" 
+                alt="Quantix Analytics Logo" 
+                className="h-12 w-auto"
+              />
               <div>
                 <h1 className="text-2xl sm:text-3xl font-bold text-gray-900">
                   Certificate of Analysis
@@ -44,112 +46,115 @@ const COAViewer = () => {
                 <p className="text-sm sm:text-base text-gray-600 mt-1">
                   Sample ID: <span className="font-mono font-medium">{filename}</span>
                 </p>
-              </div>
-              {/* Authentic Badge */}
-              <div className="flex items-center gap-2 bg-green-50 border-2 border-green-500 rounded-lg px-4 py-2">
-                <svg className="w-6 h-6 text-green-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
-                </svg>
-                <span className="font-semibold text-green-800">Verified Authentic</span>
-              </div>
-            </div>
-          </div>
-        </div>
-
-        {/* COA Info Cards - Mobile Optimized */}
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6">
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 mb-6">
-            <div className="bg-white rounded-lg shadow-sm p-4 border border-gray-200">
-              <h3 className="text-sm font-medium text-gray-500 mb-1">Test Date</h3>
-              <p className="text-lg font-semibold text-gray-900">
-                {new Date().toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' })}
-              </p>
-            </div>
-            <div className="bg-white rounded-lg shadow-sm p-4 border border-gray-200">
-              <h3 className="text-sm font-medium text-gray-500 mb-1">Prepared for</h3>
-              <p className="text-lg font-semibold text-gray-900">Flora Distribution Group LLC</p>
-            </div>
-            <div className="bg-white rounded-lg shadow-sm p-4 border border-gray-200">
-              <h3 className="text-sm font-medium text-gray-500 mb-1">Status</h3>
-              <p className="text-lg font-semibold text-green-600">Passed</p>
-            </div>
-            <div className="bg-white rounded-lg shadow-sm p-4 border border-gray-200">
-              <h3 className="text-sm font-medium text-gray-500 mb-1">Method</h3>
-              <p className="text-lg font-semibold text-gray-900">HPLC/MS</p>
-            </div>
-          </div>
-
-          {/* PDF Viewer Container */}
-          <div className="bg-white rounded-lg shadow-lg overflow-hidden relative">
-            {/* Authentic Stamp Overlay */}
-            <div className="absolute top-4 right-4 z-10 pointer-events-none">
-              <div className="bg-white/90 backdrop-blur-sm rounded-full p-3 shadow-lg border-4 border-green-500">
-                <div className="text-center">
-                  <svg className="w-16 h-16 text-green-600 mx-auto" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
-                  </svg>
-                  <p className="text-xs font-bold text-green-800 mt-1">AUTHENTIC</p>
-                  <p className="text-xs text-green-600">{new Date().toLocaleDateString()}</p>
-                </div>
-              </div>
-            </div>
-
-            {/* Mobile Notice */}
-            {isMobile && (
-              <div className="bg-blue-50 border-b border-blue-200 p-4">
-                <div className="flex items-start gap-3">
-                  <svg className="w-5 h-5 text-blue-600 mt-0.5 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
-                  </svg>
-                  <p className="text-sm text-blue-800">
-                    For the best viewing experience on mobile, rotate your device to landscape mode or pinch to zoom.
-                  </p>
-                </div>
-              </div>
-            )}
-
-            {/* PDF Iframe */}
-            <div className="relative bg-gray-100">
-              {loading && (
-                <div className="absolute inset-0 flex items-center justify-center bg-white z-20">
-                  <div className="text-center">
-                    <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-gray-900 mx-auto mb-4"></div>
-                    <p className="text-gray-600">Loading document...</p>
-                  </div>
-                </div>
-              )}
-              <iframe
-                src={`/api/coa/${filename}`}
-                className={`w-full ${isMobile ? 'h-[600px]' : 'h-[800px] lg:h-[1000px]'} border-0`}
-                onLoad={() => setLoading(false)}
-                title={`COA for ${filename}`}
-              />
-            </div>
-          </div>
-
-          {/* Footer Info */}
-          <div className="mt-8 bg-gray-50 rounded-lg p-6 border border-gray-200">
-            <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
-              <div>
-                <h3 className="font-semibold text-gray-900 mb-1">Document Verification</h3>
-                <p className="text-sm text-gray-600">
-                  This certificate is electronically signed and verified by Quantix Analytics.
+                <p className="text-xs text-gray-500">
+                  Powered by Quantix Analytics
                 </p>
               </div>
-              <button
-                onClick={() => window.open(`/api/coa/${filename}`, '_blank')}
-                className="inline-flex items-center gap-2 bg-gray-900 text-white px-4 py-2 rounded-lg hover:bg-gray-800 transition-colors"
-              >
-                <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
-                </svg>
-                Download PDF
-              </button>
+            </div>
+            {/* Authentic Badge */}
+            <div className="flex items-center gap-2 bg-green-50 border-2 border-green-500 rounded-lg px-4 py-2">
+              <svg className="w-6 h-6 text-green-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
+              </svg>
+              <span className="font-semibold text-green-800">Verified Authentic</span>
             </div>
           </div>
         </div>
       </div>
-    </Layout>
+
+      {/* COA Info Cards - Mobile Optimized */}
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 mb-6">
+          <div className="bg-white rounded-lg shadow-sm p-4 border border-gray-200">
+            <h3 className="text-sm font-medium text-gray-500 mb-1">Test Date</h3>
+            <p className="text-lg font-semibold text-gray-900">
+              {new Date().toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' })}
+            </p>
+          </div>
+          <div className="bg-white rounded-lg shadow-sm p-4 border border-gray-200">
+            <h3 className="text-sm font-medium text-gray-500 mb-1">Prepared for</h3>
+            <p className="text-lg font-semibold text-gray-900">Flora Distribution Group LLC</p>
+          </div>
+          <div className="bg-white rounded-lg shadow-sm p-4 border border-gray-200">
+            <h3 className="text-sm font-medium text-gray-500 mb-1">Status</h3>
+            <p className="text-lg font-semibold text-green-600">Passed</p>
+          </div>
+          <div className="bg-white rounded-lg shadow-sm p-4 border border-gray-200">
+            <h3 className="text-sm font-medium text-gray-500 mb-1">Method</h3>
+            <p className="text-lg font-semibold text-gray-900">HPLC/MS</p>
+          </div>
+        </div>
+
+        {/* PDF Viewer Container */}
+        <div className="bg-white rounded-lg shadow-lg overflow-hidden relative">
+          {/* Authentic Stamp Overlay */}
+          <div className="absolute top-4 right-4 z-10 pointer-events-none">
+            <div className="bg-white/90 backdrop-blur-sm rounded-full p-3 shadow-lg border-4 border-green-500">
+              <div className="text-center">
+                <svg className="w-16 h-16 text-green-600 mx-auto" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
+                </svg>
+                <p className="text-xs font-bold text-green-800 mt-1">AUTHENTIC</p>
+                <p className="text-xs text-green-600">{new Date().toLocaleDateString()}</p>
+              </div>
+            </div>
+          </div>
+
+          {/* Mobile Notice */}
+          {isMobile && (
+            <div className="bg-blue-50 border-b border-blue-200 p-4">
+              <div className="flex items-start gap-3">
+                <svg className="w-5 h-5 text-blue-600 mt-0.5 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+                </svg>
+                <p className="text-sm text-blue-800">
+                  For the best viewing experience on mobile, rotate your device to landscape mode or pinch to zoom.
+                </p>
+              </div>
+            </div>
+          )}
+
+          {/* PDF Iframe */}
+          <div className="relative bg-gray-100">
+            {loading && (
+              <div className="absolute inset-0 flex items-center justify-center bg-white z-20">
+                <div className="text-center">
+                  <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-gray-900 mx-auto mb-4"></div>
+                  <p className="text-gray-600">Loading document...</p>
+                </div>
+              </div>
+            )}
+            <iframe
+              src={`/api/coa/${filename}`}
+              className={`w-full ${isMobile ? 'h-[600px]' : 'h-[800px] lg:h-[1000px]'} border-0`}
+              onLoad={() => setLoading(false)}
+              title={`COA for ${filename}`}
+            />
+          </div>
+        </div>
+
+        {/* Footer Info */}
+        <div className="mt-8 bg-gray-50 rounded-lg p-6 border border-gray-200">
+          <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
+            <div>
+              <h3 className="font-semibold text-gray-900 mb-1">Document Verification</h3>
+              <p className="text-sm text-gray-600">
+                This certificate is electronically signed and verified by Quantix Analytics.
+              </p>
+            </div>
+            <button
+              onClick={() => window.open(`/api/coa/${filename}`, '_blank')}
+              className="inline-flex items-center gap-2 bg-gray-900 text-white px-4 py-2 rounded-lg hover:bg-gray-800 transition-colors"
+            >
+              <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
+              </svg>
+              Download PDF
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
   )
 }
 
