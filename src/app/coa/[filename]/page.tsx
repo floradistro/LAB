@@ -9,6 +9,10 @@ const COAViewer = () => {
   const filename = params?.filename as string
   const [loading, setLoading] = useState(true)
   const [isMobile, setIsMobile] = useState(false)
+  const [coaMetadata, setCoaMetadata] = useState<{
+    completionDate?: string
+    filename?: string
+  } | null>(null)
 
   useEffect(() => {
     const checkMobile = () => {
@@ -18,6 +22,21 @@ const COAViewer = () => {
     window.addEventListener('resize', checkMobile)
     return () => window.removeEventListener('resize', checkMobile)
   }, [])
+
+  useEffect(() => {
+    if (filename) {
+      fetch(`/api/coa/${filename}/metadata`)
+        .then(response => response.json())
+        .then(data => {
+          if (!data.error) {
+            setCoaMetadata(data)
+          }
+        })
+        .catch(error => {
+          console.error('Failed to fetch COA metadata:', error)
+        })
+    }
+  }, [filename])
 
   if (!filename) return (
     <div className="min-h-screen bg-gradient-to-br from-gray-50 to-gray-100 flex items-center justify-center p-4">
@@ -77,7 +96,10 @@ const COAViewer = () => {
           <div className="bg-white rounded-lg shadow-sm p-4 border border-gray-200">
             <h3 className="text-sm font-medium text-gray-500 mb-1">Test Date</h3>
             <p className="text-lg font-semibold text-gray-900">
-              {new Date().toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' })}
+              {coaMetadata?.completionDate 
+                ? new Date(coaMetadata.completionDate).toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' })
+                : new Date().toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' })
+              }
             </p>
           </div>
           <div className="bg-white rounded-lg shadow-sm p-4 border border-gray-200">
