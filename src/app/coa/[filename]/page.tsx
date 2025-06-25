@@ -9,6 +9,7 @@ const COAViewer = () => {
   const filename = params?.filename as string
   const [loading, setLoading] = useState(true)
   const [isMobile, setIsMobile] = useState(false)
+  const [error, setError] = useState<string | null>(null)
   const [coaMetadata, setCoaMetadata] = useState<{
     completionDate?: string
     filename?: string
@@ -37,6 +38,15 @@ const COAViewer = () => {
         })
     }
   }, [filename])
+
+  const handleIframeLoad = () => {
+    setLoading(false)
+  }
+
+  const handleIframeError = () => {
+    setLoading(false)
+    setError('Failed to load the certificate. Please try again later.')
+  }
 
   if (!filename) return (
     <div className="min-h-screen bg-gradient-to-br from-gray-50 to-gray-100 flex items-center justify-center p-4">
@@ -92,16 +102,7 @@ const COAViewer = () => {
 
       {/* COA Info Cards - Mobile Optimized */}
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6">
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 mb-6">
-          <div className="bg-white rounded-lg shadow-sm p-4 border border-gray-200">
-            <h3 className="text-sm font-medium text-gray-500 mb-1">Test Date</h3>
-            <p className="text-lg font-semibold text-gray-900">
-              {coaMetadata?.completionDate 
-                ? new Date(coaMetadata.completionDate).toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' })
-                : new Date().toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' })
-              }
-            </p>
-          </div>
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 mb-6">
           <div className="bg-white rounded-lg shadow-sm p-4 border border-gray-200">
             <h3 className="text-sm font-medium text-gray-500 mb-1">Prepared for</h3>
             <p className="text-lg font-semibold text-gray-900">Flora Distribution Group LLC</p>
@@ -134,7 +135,7 @@ const COAViewer = () => {
           )}
 
           {/* PDF Iframe */}
-          <div className="relative bg-gray-100">
+          <div className="relative bg-white">
             {loading && (
               <div className="absolute inset-0 flex items-center justify-center bg-white z-20">
                 <div className="text-center">
@@ -143,11 +144,40 @@ const COAViewer = () => {
                 </div>
               </div>
             )}
+            
+            {error && (
+              <div className="absolute inset-0 flex items-center justify-center bg-white z-20">
+                <div className="text-center max-w-md mx-auto p-6">
+                  <svg className="w-16 h-16 text-red-500 mx-auto mb-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-2.5L13.732 4c-.77-.833-1.964-.833-2.732 0L3.732 16.5c-.77.833.192 2.5 1.732 2.5z" />
+                  </svg>
+                  <h3 className="text-lg font-semibold text-gray-900 mb-2">Unable to Load Certificate</h3>
+                  <p className="text-gray-600 mb-4">{error}</p>
+                  <button
+                    onClick={() => {
+                      setError(null)
+                      setLoading(true)
+                      // Reload iframe
+                      const iframe = document.querySelector('iframe')
+                      if (iframe) {
+                        iframe.src = iframe.src
+                      }
+                    }}
+                    className="bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700 transition-colors"
+                  >
+                    Try Again
+                  </button>
+                </div>
+              </div>
+            )}
+            
             <iframe
               src={`/api/coa/${filename}`}
               className={`w-full ${isMobile ? 'h-[600px]' : 'h-[800px] lg:h-[1000px]'} border-0`}
-              onLoad={() => setLoading(false)}
+              onLoad={handleIframeLoad}
+              onError={handleIframeError}
               title={`COA for ${filename}`}
+              style={{ backgroundColor: 'white' }}
             />
           </div>
         </div>
