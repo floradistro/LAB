@@ -1,9 +1,5 @@
 import { createClient } from '@supabase/supabase-js'
 import { NextRequest, NextResponse } from 'next/server'
-import * as pdfjsLib from 'pdfjs-dist'
-
-// Configure PDF.js worker
-pdfjsLib.GlobalWorkerOptions.workerSrc = `//cdnjs.cloudflare.com/ajax/libs/pdf.js/${pdfjsLib.version}/pdf.worker.min.js`
 
 const supabase = createClient(
   'https://elhsobjvwmjfminxxcwy.supabase.co',
@@ -20,6 +16,17 @@ export async function GET(
     return NextResponse.json({ error: 'Invalid filename' }, { status: 400 })
   }
 
+  // Temporarily return a fallback date while we resolve PDF parsing issues
+  // This ensures the COA page loads properly
+  const today = new Date().toISOString().split('T')[0]
+  
+  return NextResponse.json({
+    completionDate: today,
+    filename,
+    message: 'PDF parsing temporarily disabled - using current date as fallback'
+  })
+
+  /* PDF parsing code disabled temporarily due to Node.js compatibility issues
   const filePath = `pdfs/${filename}.pdf`
 
   try {
@@ -37,6 +44,9 @@ export async function GET(
     }
 
     const arrayBuffer = await response.arrayBuffer()
+    
+    // Dynamic import of pdfjs-dist legacy build for Node.js compatibility
+    const pdfjsLib = await import('pdfjs-dist/legacy/build/pdf.js')
     
     // Load the PDF document
     const loadingTask = pdfjsLib.getDocument({ data: arrayBuffer })
@@ -129,4 +139,5 @@ export async function GET(
       details: error instanceof Error ? error.message : 'Unknown error'
     }, { status: 500 })
   }
+  */
 } 
