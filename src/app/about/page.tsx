@@ -34,7 +34,7 @@ export default function About() {
             {/* About Section */}
             <Card className="p-8 md:p-6 slide-up">
               <p className="text-gray-600 leading-relaxed text-base md:text-sm">
-                Quantix Analytics is an independent cannabis testing lab based in Charlotte, North Carolina—right in the middle of one of the fastest-growing hemp and cannabis markets on the East Coast. We started Quantix after years of working in the industry ourselves—managing production and supply chains across California, Michigan, and Colorado. The lab reflects that background: it's built to be lean, reliable, and fast—designed for operators who need results they can trust without slowing things down.
+                Quantix Analytics is an independent cannabis testing lab based in Charlotte, North Carolina—right in the middle of one of the fastest-growing hemp and cannabis markets on the East Coast. We started Quantix after years of working in the industry ourselves—managing production and supply chains across California, Michigan, and Colorado. The lab reflects that background: it&apos;s built to be lean, reliable, and fast—designed for operators who need results they can trust without slowing things down.
               </p>
               <br />
               <p className="text-gray-600 leading-relaxed text-base md:text-sm">
@@ -42,7 +42,7 @@ export default function About() {
               </p>
               <br />
               <p className="text-gray-600 leading-relaxed text-base md:text-sm">
-                We work with teams all over the East Coast and beyond. Whether you're running a single batch or scaling across multiple states, we keep pace—and keep it clean.
+                We work with teams all over the East Coast and beyond. Whether you&apos;re running a single batch or scaling across multiple states, we keep pace—and keep it clean.
               </p>
             </Card>
 

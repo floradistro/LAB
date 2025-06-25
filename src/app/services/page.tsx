@@ -59,7 +59,7 @@ function PricingInquiryForm() {
         </div>
         <h3 className="text-xl font-semibold text-gray-900 mb-2">Request Submitted!</h3>
         <p className="text-gray-600 mb-6">
-          Thank you for your inquiry. We'll get back to you within 24 hours with a custom quote.
+          Thank you for your inquiry. We&apos;ll get back to you within 24 hours with a custom quote.
         </p>
         <Button onClick={() => setIsSubmitted(false)} variant="secondary">
           Submit Another Request
@@ -438,7 +438,7 @@ export default function Services() {
           <div className="text-center mb-8 md:mb-12">
             <h2 className="text-2xl md:text-3xl font-bold text-gray-900 mb-3">Get Custom Pricing</h2>
             <p className="text-base md:text-lg text-gray-600 max-w-2xl mx-auto">
-              Tell us about your testing needs and we'll provide a tailored quote within 24 hours
+              Tell us about your testing needs and we&apos;ll provide a tailored quote within 24 hours
             </p>
           </div>
 

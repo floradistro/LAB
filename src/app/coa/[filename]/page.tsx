@@ -2,6 +2,7 @@
 
 import { useParams } from 'next/navigation'
 import { useState, useEffect } from 'react'
+import Image from 'next/image'
 
 const COAViewer = () => {
   const params = useParams()
@@ -35,9 +36,11 @@ const COAViewer = () => {
           <div className="flex items-center justify-center -space-x-2">
             <div className="relative">
               <div className="absolute inset-0 bg-blue-500 rounded-full blur-xl opacity-20"></div>
-              <img 
+              <Image 
                 src="/quantixlogo.png" 
                 alt="Quantix Logo" 
+                width={80}
+                height={80}
                 className="w-20 h-20 relative z-10 drop-shadow-lg"
               />
             </div>

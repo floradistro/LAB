@@ -3,7 +3,6 @@
 import Image from "next/image";
 import Layout from "@/components/Layout";
 import Button from "@/components/UI/Button";
-import Card from "@/components/UI/Card";
 
 export default function Home() {
   return (
@@ -87,7 +86,7 @@ export default function Home() {
               </div>
               <h3 className="text-2xl md:text-3xl font-bold text-gray-900 mb-4">Effortless Intake</h3>
               <p className="text-base text-gray-600 leading-relaxed max-w-sm mx-auto">
-                Register in minutes, print your shipping labels, and send your samples — it's that easy.
+                Register in minutes, print your shipping labels, and send your samples — it&apos;s that easy.
               </p>
             </div>
           </div>
