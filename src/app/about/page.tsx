@@ -31,97 +31,37 @@ export default function About() {
 
           {/* Content Sections */}
           <div className="space-y-12 md:space-y-10">
-            {/* Mission Section */}
+            {/* About Section */}
             <Card className="p-8 md:p-6 slide-up">
-              <h2 className="text-2xl md:text-xl font-bold text-gray-900 mb-4 md:mb-3">Our Mission</h2>
               <p className="text-gray-600 leading-relaxed text-base md:text-sm">
-                Quantix Analytics exists to provide cannabis operators with the fastest, most accurate testing 
-                results in the industry. We understand that in this business, time equals money—and lab errors 
-                don&apos;t just hurt margins—they delay launches, stall sales, and put compliance at risk.
+                Quantix Analytics is an independent cannabis testing lab based in Charlotte, North Carolina—right in the middle of one of the fastest-growing hemp and cannabis markets on the East Coast. We started Quantix after years of working in the industry ourselves—managing production and supply chains across California, Michigan, and Colorado. The lab reflects that background: it's built to be lean, reliable, and fast—designed for operators who need results they can trust without slowing things down.
+              </p>
+              <br />
+              <p className="text-gray-600 leading-relaxed text-base md:text-sm">
+                We handle analytical testing for a wide range of products, with a focus on speed, accuracy, and consistency. That includes potency, pesticide screening, heavy metals, and microbial panels—all run on validated methods and trusted instrumentation that meet regulatory standards. Everything moves through a fully digital pipeline: from the moment a sample is logged to the moment a COA is delivered, every step is tracked, time-stamped, and built for transparency.
+              </p>
+              <br />
+              <p className="text-gray-600 leading-relaxed text-base md:text-sm">
+                We work with teams all over the East Coast and beyond. Whether you're running a single batch or scaling across multiple states, we keep pace—and keep it clean.
               </p>
             </Card>
 
-            {/* Why We're Different */}
-            <Card className="p-8 md:p-6 slide-up">
-              <h2 className="text-2xl md:text-xl font-bold text-gray-900 mb-4 md:mb-3">Why We&apos;re Different</h2>
-              <div className="space-y-4 md:space-y-3">
-                <div>
-                  <h3 className="text-lg md:text-base font-semibold text-gray-900 mb-2">Speed Without Compromise</h3>
-                  <p className="text-gray-600 text-base md:text-sm leading-relaxed">
-                    24-48 hour turnaround is our standard, not our exception. We&apos;ve built our entire operation 
-                    around speed because we know that in cannabis, every second matters. Products need to hit 
-                    shelves without delay, whether you&apos;re a farm, retailer, or distributor. We designed our 
-                    lab around that urgency.
-                  </p>
-                </div>
-                
-                <div>
-                  <h3 className="text-lg md:text-base font-semibold text-gray-900 mb-2">Built for Scale</h3>
-                  <p className="text-gray-600 text-base md:text-sm leading-relaxed">
-                    From small craft batches to large-scale commercial operations, our processes adapt to your 
-                    needs. Whether you&apos;re a local cultivator or a national brand, we&apos;re structured to 
-                    move fast and deliver clarity.
-                  </p>
-                </div>
-                
-                <div>
-                  <h3 className="text-lg md:text-base font-semibold text-gray-900 mb-2">Technology First</h3>
-                  <p className="text-gray-600 text-base md:text-sm leading-relaxed">
-                    State-of-the-art equipment, automated workflows, and digital reporting mean you get results 
-                    faster and with complete transparency. We don&apos;t believe in waiting a week for test 
-                    results that barely tell you anything.
-                  </p>
-                </div>
-              </div>
-            </Card>
 
-            {/* Values */}
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-6 md:gap-4">
-              <Card className="p-6 md:p-4 text-center slide-up">
-                <div className="w-16 h-16 md:w-12 md:h-12 bg-blue-100 rounded-full flex items-center justify-center mx-auto mb-4 md:mb-3">
-                  <svg className="w-8 h-8 md:w-6 md:h-6 text-blue-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 10V3L4 14h7v7l9-11h-7z" />
-                  </svg>
-                </div>
-                <h3 className="text-lg md:text-base font-semibold text-gray-900 mb-2">Speed</h3>
-                <p className="text-gray-600 text-sm md:text-xs">24-48 hour results, guaranteed</p>
-              </Card>
-              
-              <Card className="p-6 md:p-4 text-center slide-up">
-                <div className="w-16 h-16 md:w-12 md:h-12 bg-green-100 rounded-full flex items-center justify-center mx-auto mb-4 md:mb-3">
-                  <svg className="w-8 h-8 md:w-6 md:h-6 text-green-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
-                  </svg>
-                </div>
-                <h3 className="text-lg md:text-base font-semibold text-gray-900 mb-2">Accuracy</h3>
-                <p className="text-gray-600 text-sm md:text-xs">ISO-certified precision you can trust</p>
-              </Card>
-              
-              <Card className="p-6 md:p-4 text-center slide-up">
-                <div className="w-16 h-16 md:w-12 md:h-12 bg-purple-100 rounded-full flex items-center justify-center mx-auto mb-4 md:mb-3">
-                  <svg className="w-8 h-8 md:w-6 md:h-6 text-purple-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197M13 7a4 4 0 11-8 0 4 4 0 018 0z" />
-                  </svg>
-                </div>
-                <h3 className="text-lg md:text-base font-semibold text-gray-900 mb-2">Partnership</h3>
-                <p className="text-gray-600 text-sm md:text-xs">Your success is our priority</p>
-              </Card>
-            </div>
 
             {/* Call to Action */}
             <Card className="p-8 md:p-6 text-center bg-gradient-subtle slide-up">
-              <h2 className="text-2xl md:text-xl font-bold text-gray-900 mb-4 md:mb-3">Ready to Experience the Difference?</h2>
+              <h2 className="text-2xl md:text-xl font-bold text-gray-900 mb-4 md:mb-3">See What We Test</h2>
               <p className="text-gray-600 mb-6 md:mb-4 text-base md:text-sm">
-                We built Quantix to support operators who move fast and don&apos;t have time for guesswork. 
-                If you&apos;re a cultivator, formulator, processor, or brand, you need results you can 
-                trust—and you need them without delay. That&apos;s what we do.
+                From potency to pesticides, heavy metals to microbials—our testing services are built 
+                for operators who need accurate results without the wait. See our full testing menu 
+                and turnaround times.
               </p>
               <div className="flex flex-col sm:flex-row gap-4 justify-center">
-                <Button href="/submit-sample" size="medium">
-                  Submit a Sample
+                <Button href="/services" size="medium">
+                  View Testing Services
                 </Button>
-                <Button href="/contact" variant="secondary" size="medium">
-                  Contact Us
+                <Button href="/submit-sample" variant="secondary" size="medium">
+                  Submit a Sample
                 </Button>
               </div>
             </Card>

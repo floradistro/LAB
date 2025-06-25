@@ -23,10 +23,11 @@ const Button = forwardRef<HTMLButtonElement, ButtonProps>(
   }, ref) => {
     const baseClasses = variant === 'primary' ? 'apple-button' : 'apple-button-secondary';
     
+    // Industry standard CTA button sizes
     const sizeClasses = {
-      small: 'px-4 py-2 text-xs',
-      medium: 'px-6 py-3 text-sm',
-      large: 'px-8 py-4 text-base'
+      small: 'px-6 py-3 text-sm min-h-[44px]',     // 44px minimum touch target
+      medium: 'px-8 py-4 text-base min-h-[48px]',   // 48px standard CTA size
+      large: 'px-10 py-5 text-lg min-h-[56px]'      // 56px large CTA size
     };
 
     const classes = `

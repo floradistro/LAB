@@ -1,5 +1,6 @@
 "use client";
 
+import Image from "next/image";
 import Layout from "@/components/Layout";
 import Button from "@/components/UI/Button";
 import Card from "@/components/UI/Card";
@@ -8,103 +9,109 @@ export default function Home() {
   return (
     <Layout currentPage="home">
       {/* Hero Section */}
-      <section className="relative bg-white min-h-[80vh] md:min-h-[calc(100vh-4rem)] flex items-center justify-center px-4 gradient-mesh">
-        <div className="max-w-4xl mx-auto text-center py-16 md:py-12 relative">
-          <div className="fade-in">
-            <h1 className="text-5xl md:text-6xl font-bold text-gray-900 mb-6 tracking-tight">
-              Cannabis Testing
-              <span className="block text-blue-600">Redefined</span>
-            </h1>
-            <p className="text-lg md:text-xl text-gray-600 mb-8 max-w-2xl mx-auto">
-              Professional lab results in 24-48 hours. State-certified testing for potency, 
-              pesticides, microbials, and heavy metals.
+      <section className="relative bg-white min-h-screen flex items-center justify-center px-4 gradient-mesh">
+        <div className="max-w-6xl mx-auto text-center py-20 relative">
+          {/* Logo and Brand */}
+          <div className="fade-in mb-12">
+            <div className="flex items-center justify-center mb-10 -space-x-4">
+              <div className="relative">
+                <div className="absolute inset-0 bg-blue-500 rounded-full blur-2xl opacity-25"></div>
+                <Image
+                  src="/quantixlogo.png"
+                  alt="Quantix Logo"
+                  width={140}
+                  height={140}
+                  className="w-32 h-32 md:w-36 md:h-36 relative z-10 drop-shadow-xl"
+                />
+              </div>
+              <h1 className="text-7xl md:text-9xl font-bold text-gray-900 tracking-tight">
+                Quantix
+              </h1>
+            </div>
+            
+            {/* Tagline */}
+            <p className="text-xl md:text-2xl text-gray-600 mb-12 max-w-3xl mx-auto leading-relaxed">
+              Full-panel cannabis testing with 24–48 hour turnaround.<br />
+              <span className="text-gray-500">Trusted by growers, brands, and distributors across the cannabis industry.</span>
             </p>
-            <div className="flex flex-col sm:flex-row gap-4 justify-center">
-              <Button href="/submit-sample" size="large">
+            
+                         {/* CTA Buttons */}
+             <div className="flex flex-col sm:flex-row gap-6 justify-center mb-20">
+              <Button href="/submit-sample" size="large" className="font-semibold">
                 Submit Sample
               </Button>
-              <Button href="/services" variant="secondary" size="large">
+              <Button href="/services" variant="secondary" size="large" className="font-semibold">
                 View Services
               </Button>
             </div>
           </div>
-
-          {/* Trust Indicators */}
-          <div className="mt-16 md:mt-12 grid grid-cols-3 gap-8 max-w-3xl mx-auto">
-            <div className="text-center slide-up">
-              <div className="text-3xl md:text-4xl font-bold text-gray-900 animate-number">24hr</div>
-              <div className="text-sm text-gray-600 mt-1">Turnaround</div>
-            </div>
-            <div className="text-center slide-up" style={{ animationDelay: '0.1s' }}>
-              <div className="text-3xl md:text-4xl font-bold text-gray-900 animate-number">99.9%</div>
-              <div className="text-sm text-gray-600 mt-1">Accuracy</div>
-            </div>
-            <div className="text-center slide-up" style={{ animationDelay: '0.2s' }}>
-              <div className="text-3xl md:text-4xl font-bold text-gray-900 animate-number">ISO</div>
-              <div className="text-sm text-gray-600 mt-1">Certified</div>
-            </div>
-          </div>
         </div>
       </section>
 
-      {/* Services Preview */}
-      <section className="py-16 px-4 bg-gray-50">
-        <div className="max-w-6xl mx-auto">
-          <h2 className="text-3xl font-bold text-center mb-12">Our Testing Services</h2>
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-            <Card hover className="p-6">
-              <div className="w-12 h-12 bg-blue-100 rounded-lg flex items-center justify-center mb-4">
-                <svg className="w-6 h-6 text-blue-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+      {/* Why Quantix Section */}
+      <section className="py-24 px-4 bg-gray-50">
+        <div className="max-w-7xl mx-auto">
+          <div className="text-center mb-16">
+            <h2 className="text-4xl md:text-5xl font-bold text-gray-900 mb-4">Why <span style={{color: '#007aff'}}>Quantix</span>?</h2>
+          </div>
+          <div className="grid grid-cols-1 lg:grid-cols-3 gap-12">
+            <div className="text-center slide-up">
+              <div className="w-20 h-20 mx-auto mb-6 bg-white rounded-2xl shadow-lg flex items-center justify-center">
+                <svg className="w-10 h-10 text-gray-700" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
                 </svg>
               </div>
-              <h3 className="font-semibold text-lg mb-2">Potency Testing</h3>
-              <p className="text-gray-600 text-sm">Accurate cannabinoid profiling for THC, CBD, and more</p>
-            </Card>
+              <h3 className="text-2xl md:text-3xl font-bold text-gray-900 mb-4">Verified Results</h3>
+              <p className="text-base text-gray-600 leading-relaxed max-w-sm mx-auto">
+                Accurate, lab-grade testing designed for real-world production and compliance.
+              </p>
+            </div>
             
-            <Card hover className="p-6">
-              <div className="w-12 h-12 bg-green-100 rounded-lg flex items-center justify-center mb-4">
-                <svg className="w-6 h-6 text-green-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 6V4m0 2a2 2 0 100 4m0-4a2 2 0 110 4m-6 8a2 2 0 100-4m0 4a2 2 0 110-4m0 4v2m0-6V4m6 6v10m6-2a2 2 0 100-4m0 4a2 2 0 110-4m0 4v2m0-6V4" />
+            <div className="text-center slide-up" style={{ animationDelay: '0.1s' }}>
+              <div className="w-20 h-20 mx-auto mb-6 bg-white rounded-2xl shadow-lg flex items-center justify-center">
+                <svg className="w-10 h-10 text-gray-700" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z" />
                 </svg>
               </div>
-              <h3 className="font-semibold text-lg mb-2">Pesticide Screening</h3>
-              <p className="text-gray-600 text-sm">Comprehensive testing for harmful pesticides</p>
-            </Card>
+              <h3 className="text-2xl md:text-3xl font-bold text-gray-900 mb-4">Secure Infrastructure</h3>
+              <p className="text-base text-gray-600 leading-relaxed max-w-sm mx-auto">
+                Encrypted data, permanent access to every report, and protected digital records.
+              </p>
+            </div>
             
-            <Card hover className="p-6">
-              <div className="w-12 h-12 bg-purple-100 rounded-lg flex items-center justify-center mb-4">
-                <svg className="w-6 h-6 text-purple-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19.428 15.428a2 2 0 00-1.022-.547l-2.387-.477a6 6 0 00-3.86.517l-.318.158a6 6 0 01-3.86.517L6.05 15.21a2 2 0 00-1.806.547M8 4h8l-1 1v5.172a2 2 0 00.586 1.414l5 5c1.26 1.26.367 3.414-1.415 3.414H4.828c-1.782 0-2.674-2.154-1.414-3.414l5-5A2 2 0 009 10.172V5L8 4z" />
+            <div className="text-center slide-up" style={{ animationDelay: '0.2s' }}>
+              <div className="w-20 h-20 mx-auto mb-6 bg-white rounded-2xl shadow-lg flex items-center justify-center">
+                <svg className="w-10 h-10 text-gray-700" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
                 </svg>
               </div>
-              <h3 className="font-semibold text-lg mb-2">Microbial Testing</h3>
-              <p className="text-gray-600 text-sm">Detection of mold, yeast, and harmful bacteria</p>
-            </Card>
-            
-            <Card hover className="p-6">
-              <div className="w-12 h-12 bg-red-100 rounded-lg flex items-center justify-center mb-4">
-                <svg className="w-6 h-6 text-red-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 18h.01M8 21h8a2 2 0 002-2V5a2 2 0 00-2-2H8a2 2 0 00-2 2v14a2 2 0 002 2z" />
-                </svg>
-              </div>
-              <h3 className="font-semibold text-lg mb-2">Heavy Metals</h3>
-              <p className="text-gray-600 text-sm">Testing for lead, mercury, cadmium, and arsenic</p>
-            </Card>
+              <h3 className="text-2xl md:text-3xl font-bold text-gray-900 mb-4">Effortless Intake</h3>
+              <p className="text-base text-gray-600 leading-relaxed max-w-sm mx-auto">
+                Register in minutes, print your shipping labels, and send your samples — it's that easy.
+              </p>
+            </div>
           </div>
         </div>
       </section>
 
+
+
       {/* CTA Section */}
-      <section className="py-16 px-4 bg-white">
-        <div className="max-w-4xl mx-auto text-center">
-          <h2 className="text-3xl font-bold mb-4">Ready to Get Started?</h2>
-          <p className="text-lg text-gray-600 mb-8">
-            Submit your samples today and get results within 24-48 hours
+      <section className="py-24 px-4 bg-white">
+        <div className="max-w-5xl mx-auto text-center">
+          <h2 className="text-4xl md:text-5xl font-bold text-gray-900 mb-6">Experience the Difference</h2>
+          <p className="text-xl text-gray-600 mb-12 max-w-3xl mx-auto leading-relaxed">
+            Submit your samples today and get results within 24-48 hours.<br />
+            <span className="text-gray-500">Professional testing that keeps your business moving forward.</span>
           </p>
-          <Button href="/submit-sample" size="large">
-            Submit Your Sample
-          </Button>
+                     <div className="flex flex-col sm:flex-row gap-6 justify-center">
+            <Button href="/submit-sample" size="large" className="font-semibold">
+              Submit Your Sample
+            </Button>
+            <Button href="/contact" variant="secondary" size="large" className="font-semibold">
+              Contact Us
+            </Button>
+          </div>
         </div>
       </section>
     </Layout>
