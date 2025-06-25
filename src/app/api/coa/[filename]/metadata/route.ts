@@ -1,7 +1,5 @@
 import { createClient } from '@supabase/supabase-js'
 import { NextRequest, NextResponse } from 'next/server'
-const pdf = require('pdf-parse')
-
 const supabase = createClient(
   'https://elhsobjvwmjfminxxcwy.supabase.co',
   process.env.SUPABASE_SERVICE_ROLE_KEY!
@@ -34,6 +32,9 @@ export async function GET(
     }
 
     const buffer = await response.arrayBuffer()
+    
+    // Dynamic import to avoid build issues
+    const pdf = (await import('pdf-parse')).default
     const pdfData = await pdf(Buffer.from(buffer))
     
     // Extract completion date from PDF text
