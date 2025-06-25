@@ -3,7 +3,7 @@ import { NextRequest, NextResponse } from 'next/server'
 
 const supabase = createClient(
   'https://elhsobjvwmjfminxxcwy.supabase.co',
-  process.env.SUPABASE_SERVICE_ROLE_KEY!
+  process.env.SUPABASE_SERVICE_ROLE_KEY || 'dummy-key-for-development'
 )
 
 export async function GET(
