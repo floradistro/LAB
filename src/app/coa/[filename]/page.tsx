@@ -10,11 +10,6 @@ const COAViewer = () => {
   const [loading, setLoading] = useState(true)
   const [isMobile, setIsMobile] = useState(false)
   const [error, setError] = useState<string | null>(null)
-  const [coaMetadata, setCoaMetadata] = useState<{
-    completionDate?: string
-    filename?: string
-  } | null>(null)
-
   useEffect(() => {
     const checkMobile = () => {
       setIsMobile(window.innerWidth < 768)
@@ -23,21 +18,6 @@ const COAViewer = () => {
     window.addEventListener('resize', checkMobile)
     return () => window.removeEventListener('resize', checkMobile)
   }, [])
-
-  useEffect(() => {
-    if (filename) {
-      fetch(`/api/coa/${filename}/metadata`)
-        .then(response => response.json())
-        .then(data => {
-          if (!data.error) {
-            setCoaMetadata(data)
-          }
-        })
-        .catch(error => {
-          console.error('Failed to fetch COA metadata:', error)
-        })
-    }
-  }, [filename])
 
   const handleIframeLoad = () => {
     setLoading(false)
