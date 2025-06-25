@@ -48,7 +48,8 @@ export async function GET(
       const page = await pdf.getPage(pageNum)
       const textContent = await page.getTextContent()
       const pageText = textContent.items
-        .map((item: any) => item.str)
+        .filter((item: unknown) => typeof item === 'object' && item !== null && 'str' in item)
+        .map((item: unknown) => (item as { str: string }).str)
         .join(' ')
       fullText += pageText + '\n'
     }
@@ -82,7 +83,7 @@ export async function GET(
           if (!isNaN(parsedDate.getTime())) {
             completionDate = parsedDate.toISOString().split('T')[0]
           }
-        } catch (e) {
+        } catch {
           // Keep original format if parsing fails
         }
         break
@@ -106,7 +107,7 @@ export async function GET(
             if (!isNaN(parsedDate.getTime())) {
               completionDate = parsedDate.toISOString().split('T')[0]
             }
-          } catch (e) {
+          } catch {
             // Keep original format if parsing fails
           }
           break
