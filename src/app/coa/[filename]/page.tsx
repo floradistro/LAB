@@ -96,18 +96,6 @@ const COAViewer = () => {
 
         {/* PDF Viewer Container */}
         <div className="bg-white rounded-lg shadow-lg overflow-hidden relative">
-          {/* Authentic Stamp Overlay */}
-          <div className="absolute top-4 right-4 z-10 pointer-events-none">
-            <div className="bg-white/90 backdrop-blur-sm rounded-full p-3 shadow-lg border-4 border-green-500">
-              <div className="text-center">
-                <svg className="w-16 h-16 text-green-600 mx-auto" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
-                </svg>
-                <p className="text-xs font-bold text-green-800 mt-1">AUTHENTIC</p>
-                <p className="text-xs text-green-600">{new Date().toLocaleDateString()}</p>
-              </div>
-            </div>
-          </div>
 
           {/* Mobile Notice */}
           {isMobile && (
