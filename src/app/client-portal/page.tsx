@@ -7,68 +7,60 @@ import Button from "@/components/UI/Button";
 import Input from "@/components/UI/Input";
 import Card from "@/components/UI/Card";
 import Skeleton from "@/components/UI/Skeleton";
-import { useForm } from "@/hooks/useForm";
-import { ValidationSchema } from "@/lib/validation";
-
-type LoginFormData = {
-  email: string;
-  password: string;
-  [key: string]: unknown;
-};
-
-type SignupFormData = {
-  email: string;
-  password: string;
-  companyName: string;
-  confirmPassword: string;
-  [key: string]: unknown;
-};
 
 export default function ClientPortal() {
   const [mounted, setMounted] = useState(false);
   const [isLogin, setIsLogin] = useState(true);
-  const [isLoggedIn, setIsLoggedIn] = useState(false);
-  const [activeTab, setActiveTab] = useState('results');
-
-  const loginValidation: ValidationSchema = {
-    email: [{ type: 'required' }, { type: 'email' }],
-    password: [{ type: 'required' }]
-  };
-
-  const signupValidation: ValidationSchema = {
-    companyName: [{ type: 'required' }],
-    email: [{ type: 'required' }, { type: 'email' }],
-    password: [{ type: 'required' }],
-    confirmPassword: [{ type: 'required' }]
-  };
-
-  const loginForm = useForm<LoginFormData>({
-    initialValues: { email: '', password: '' },
-    validationSchema: loginValidation,
-    onSubmit: async () => {
-      // Simulate login
-      await new Promise(resolve => setTimeout(resolve, 1000));
-      setIsLoggedIn(true);
-    }
-  });
-
-  const signupForm = useForm<SignupFormData>({
-    initialValues: { email: '', password: '', companyName: '', confirmPassword: '' },
-    validationSchema: signupValidation,
-    onSubmit: async (values) => {
-      if (values.password !== values.confirmPassword) {
-        signupForm.setFieldError('confirmPassword', 'Passwords do not match');
-        return;
-      }
-      // Simulate signup
-      await new Promise(resolve => setTimeout(resolve, 1000));
-      setIsLoggedIn(true);
-    }
-  });
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
+  const [companyName, setCompanyName] = useState('');
+  const [confirmPassword, setConfirmPassword] = useState('');
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [showError, setShowError] = useState(false);
+  const [showForgotPassword, setShowForgotPassword] = useState(false);
+  const [resetEmail, setResetEmail] = useState('');
+  const [resetSent, setResetSent] = useState(false);
 
   useEffect(() => {
     setMounted(true);
   }, []);
+
+  const handleLogin = async (e: React.FormEvent) => {
+    e.preventDefault();
+    setIsSubmitting(true);
+    setShowError(false);
+    
+    // Simulate API call
+    await new Promise(resolve => setTimeout(resolve, 1500));
+    
+    // Always show invalid credentials
+    setShowError(true);
+    setIsSubmitting(false);
+  };
+
+  const handleSignup = async (e: React.FormEvent) => {
+    e.preventDefault();
+    setIsSubmitting(true);
+    setShowError(false);
+    
+    // Simulate API call
+    await new Promise(resolve => setTimeout(resolve, 1500));
+    
+    // Always show error for signup too
+    setShowError(true);
+    setIsSubmitting(false);
+  };
+
+  const handleForgotPassword = async (e: React.FormEvent) => {
+    e.preventDefault();
+    setIsSubmitting(true);
+    
+    // Simulate sending reset email
+    await new Promise(resolve => setTimeout(resolve, 1000));
+    
+    setResetSent(true);
+    setIsSubmitting(false);
+  };
 
   if (!mounted) {
     return (
@@ -83,178 +75,92 @@ export default function ClientPortal() {
     );
   }
 
-  if (isLoggedIn) {
+  if (showForgotPassword) {
     return (
       <Layout currentPage="client-portal">
-        <div className="max-w-6xl mx-auto px-4 py-8">
-          {/* Dashboard Header */}
-          <div className="mb-8">
-            <h1 className="text-3xl font-bold text-gray-900 mb-2">Client Dashboard</h1>
-            <p className="text-gray-600">Welcome back! Manage your test results and account.</p>
-          </div>
-
-          {/* Mobile-Optimized Tabs */}
-          <div className="border-b border-gray-200 mb-6">
-            <div className="flex overflow-x-auto scrollbar-hide -mb-px">
-              {[
-                { id: 'results', label: 'Test Results', icon: '📊' },
-                { id: 'submit', label: 'Submit Sample', icon: '🧪' },
-                { id: 'account', label: 'Account', icon: '⚙️' }
-              ].map(tab => (
-                <button
-                  key={tab.id}
-                  onClick={() => setActiveTab(tab.id)}
-                  className={`
-                    flex items-center gap-2 px-6 py-3 text-sm font-medium whitespace-nowrap
-                    border-b-2 transition-colors
-                    ${activeTab === tab.id 
-                      ? 'border-blue-500 text-blue-600' 
-                      : 'border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300'}
-                  `}
-                >
-                  <span className="text-lg">{tab.icon}</span>
-                  <span>{tab.label}</span>
-                </button>
-              ))}
+        <div className="min-h-[80vh] flex items-center justify-center px-4 py-12">
+          <Card className="w-full max-w-md p-8">
+            <div className="text-center mb-8">
+              <div className="flex justify-center mb-4">
+                <Image
+                  src="/quantixlogo.png"
+                  alt="Quantix Logo"
+                  width={60}
+                  height={60}
+                  className="drop-shadow-lg"
+                />
+              </div>
+              <h1 className="text-2xl font-bold text-gray-900">
+                Reset Password
+              </h1>
+              <p className="text-gray-600 mt-2">
+                Enter your email to receive reset instructions
+              </p>
             </div>
-          </div>
 
-          {/* Tab Content */}
-          <div className="min-h-[400px]">
-            {activeTab === 'results' && (
-              <div className="space-y-4">
-                <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 mb-6">
-                  <h2 className="text-xl font-semibold">Recent Test Results</h2>
-                  <Input
-                    type="search"
-                    placeholder="Search results..."
-                    className="w-full sm:w-64"
-                  />
+            {resetSent ? (
+              <div className="text-center space-y-4">
+                <div className="w-16 h-16 bg-green-100 rounded-full flex items-center justify-center mx-auto">
+                  <svg className="w-8 h-8 text-green-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
+                  </svg>
                 </div>
+                <h3 className="text-lg font-semibold text-gray-900">Check your email</h3>
+                <p className="text-gray-600 text-sm">
+                  We've sent password reset instructions to <strong>{resetEmail}</strong>
+                </p>
+                <p className="text-gray-500 text-xs">
+                  Didn't receive the email? Check your spam folder or try again in a few minutes.
+                </p>
+                <Button 
+                  fullWidth 
+                  variant="secondary"
+                  onClick={() => {
+                    setShowForgotPassword(false);
+                    setResetSent(false);
+                    setResetEmail('');
+                  }}
+                >
+                  Back to Sign In
+                </Button>
+              </div>
+            ) : (
+              <form onSubmit={handleForgotPassword} className="space-y-4">
+                <Input
+                  type="email"
+                  label="Email Address"
+                  placeholder="you@company.com"
+                  value={resetEmail}
+                  onChange={(e) => setResetEmail(e.target.value)}
+                  required
+                />
+                
+                <Button 
+                  type="submit" 
+                  fullWidth 
+                  size="large"
+                  loading={isSubmitting}
+                >
+                  Send Reset Instructions
+                </Button>
 
-                {/* Sample Results - Mobile Optimized Cards */}
-                <div className="grid gap-4">
-                  {[1, 2, 3].map((i) => (
-                    <Card key={i} className="p-4 hover:shadow-lg transition-shadow">
-                      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
-                        <div className="flex-1">
-                          <div className="flex items-center gap-2 mb-2">
-                            <h3 className="font-semibold text-gray-900">Sample #{2024000 + i}</h3>
-                            <span className="inline-flex items-center px-2 py-1 rounded-full text-xs font-medium bg-green-100 text-green-800">
-                              Complete
-                            </span>
-                          </div>
-                          <p className="text-sm text-gray-600 mb-1">Product: THCA Flower - Batch A{i}</p>
-                          <p className="text-xs text-gray-500">Submitted: {new Date().toLocaleDateString()}</p>
-                        </div>
-                        <div className="flex gap-2">
-                          <Button size="small" variant="secondary">
-                            View COA
-                          </Button>
-                          <Button size="small">
-                            Download
-                          </Button>
-                        </div>
-                      </div>
-                    </Card>
-                  ))}
+                <div className="text-center pt-4">
+                  <button
+                    type="button"
+                    onClick={() => setShowForgotPassword(false)}
+                    className="text-sm text-blue-600 hover:text-blue-800 transition-colors"
+                  >
+                    ← Back to Sign In
+                  </button>
                 </div>
-
-                {/* Load More */}
-                <div className="text-center pt-6">
-                  <Button variant="secondary">Load More Results</Button>
-                </div>
-              </div>
+              </form>
             )}
-
-            {activeTab === 'submit' && (
-              <div className="max-w-2xl mx-auto">
-                <Card className="p-6">
-                  <h2 className="text-xl font-semibold mb-6">Quick Sample Submission</h2>
-                  <form className="space-y-4">
-                    <Input
-                      label="Sample ID"
-                      placeholder="Enter your sample ID"
-                      required
-                    />
-                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                      <Input
-                        label="Product Type"
-                        placeholder="e.g., Flower, Extract"
-                        required
-                      />
-                      <Input
-                        label="Batch Number"
-                        placeholder="Enter batch number"
-                        required
-                      />
-                    </div>
-                    <div>
-                      <label className="block text-sm font-medium text-gray-700 mb-2">
-                        Testing Required
-                      </label>
-                      <div className="space-y-2">
-                        {['Potency', 'Pesticides', 'Microbials', 'Heavy Metals'].map((test) => (
-                          <label key={test} className="flex items-center">
-                            <input type="checkbox" className="mr-2 rounded" />
-                            <span className="text-sm">{test}</span>
-                          </label>
-                        ))}
-                      </div>
-                    </div>
-                    <Button fullWidth size="large">
-                      Submit Sample
-                    </Button>
-                  </form>
-                </Card>
-              </div>
-            )}
-
-            {activeTab === 'account' && (
-              <div className="max-w-2xl mx-auto space-y-6">
-                <Card className="p-6">
-                  <h2 className="text-xl font-semibold mb-4">Account Information</h2>
-                  <div className="space-y-4">
-                    <div>
-                      <p className="text-sm text-gray-600">Company Name</p>
-                      <p className="font-medium">Demo Company LLC</p>
-                    </div>
-                    <div>
-                      <p className="text-sm text-gray-600">Email</p>
-                      <p className="font-medium">demo@example.com</p>
-                    </div>
-                    <div>
-                      <p className="text-sm text-gray-600">Account Type</p>
-                      <p className="font-medium">Premium</p>
-                    </div>
-                  </div>
-                </Card>
-
-                <Card className="p-6">
-                  <h2 className="text-xl font-semibold mb-4">Quick Actions</h2>
-                  <div className="space-y-3">
-                    <Button fullWidth variant="secondary">Update Profile</Button>
-                    <Button fullWidth variant="secondary">Billing & Invoices</Button>
-                    <Button fullWidth variant="secondary">Download All Results</Button>
-                    <Button 
-                      fullWidth 
-                      variant="secondary"
-                      onClick={() => setIsLoggedIn(false)}
-                      className="!text-red-600 hover:!bg-red-50"
-                    >
-                      Sign Out
-                    </Button>
-                  </div>
-                </Card>
-              </div>
-            )}
-          </div>
+          </Card>
         </div>
       </Layout>
     );
   }
 
-  // Login/Signup Form
   return (
     <Layout currentPage="client-portal">
       <div className="min-h-[80vh] flex items-center justify-center px-4 py-12">
@@ -271,93 +177,126 @@ export default function ClientPortal() {
               />
             </div>
             <h1 className="text-2xl font-bold text-gray-900">
-              {isLogin ? 'Welcome Back' : 'Create Account'}
+              {isLogin ? 'Client Portal' : 'Create Account'}
             </h1>
             <p className="text-gray-600 mt-2">
-              {isLogin ? 'Sign in to access your results' : 'Start managing your test results'}
+              {isLogin ? 'Sign in to access your test results and COAs' : 'Join our platform to manage your testing'}
             </p>
           </div>
 
+          {/* Error Message */}
+          {showError && (
+            <div className="mb-6 p-4 bg-red-50 border border-red-200 rounded-lg">
+              <div className="flex items-center">
+                <svg className="w-5 h-5 text-red-600 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-2.5L13.732 4c-.77-.833-1.964-.833-2.732 0L3.732 16c-.77.833.192 2.5 1.732 2.5z" />
+                </svg>
+                <div>
+                  <h3 className="text-sm font-medium text-red-800">
+                    {isLogin ? 'Invalid credentials' : 'Registration failed'}
+                  </h3>
+                  <p className="text-sm text-red-700 mt-1">
+                    {isLogin 
+                      ? 'The email or password you entered is incorrect. Please try again or reset your password.'
+                      : 'Unable to create account. Please contact support or try again later.'
+                    }
+                  </p>
+                </div>
+              </div>
+            </div>
+          )}
+
           {/* Form */}
           {isLogin ? (
-            <form onSubmit={loginForm.handleSubmit} className="space-y-4">
+            <form onSubmit={handleLogin} className="space-y-4">
               <Input
                 type="email"
-                label="Email"
+                label="Email Address"
                 placeholder="you@company.com"
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
                 required
-                {...loginForm.getFieldProps('email')}
-                error={loginForm.errors.email}
               />
               <Input
                 type="password"
                 label="Password"
                 placeholder="Enter your password"
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
                 required
-                {...loginForm.getFieldProps('password')}
-                error={loginForm.errors.password}
               />
               
               <div className="flex items-center justify-between">
                 <label className="flex items-center">
-                  <input type="checkbox" className="mr-2 rounded" />
+                  <input type="checkbox" className="mr-2 rounded border-gray-300" />
                   <span className="text-sm text-gray-600">Remember me</span>
                 </label>
-                <a href="#" className="text-sm text-blue-600 hover:text-blue-800">
+                <button
+                  type="button"
+                  onClick={() => setShowForgotPassword(true)}
+                  className="text-sm text-blue-600 hover:text-blue-800 transition-colors"
+                >
                   Forgot password?
-                </a>
+                </button>
               </div>
 
               <Button 
                 type="submit" 
                 fullWidth 
                 size="large"
-                loading={loginForm.isSubmitting}
+                loading={isSubmitting}
               >
-                Sign In
+                {isSubmitting ? 'Signing in...' : 'Sign In'}
               </Button>
             </form>
           ) : (
-            <form onSubmit={signupForm.handleSubmit} className="space-y-4">
+            <form onSubmit={handleSignup} className="space-y-4">
               <Input
                 label="Company Name"
                 placeholder="Your company name"
+                value={companyName}
+                onChange={(e) => setCompanyName(e.target.value)}
                 required
-                {...signupForm.getFieldProps('companyName')}
-                error={signupForm.errors.companyName}
               />
               <Input
                 type="email"
-                label="Email"
+                label="Email Address"
                 placeholder="you@company.com"
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
                 required
-                {...signupForm.getFieldProps('email')}
-                error={signupForm.errors.email}
               />
               <Input
                 type="password"
                 label="Password"
-                placeholder="Create a password"
+                placeholder="Create a secure password"
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
                 required
-                {...signupForm.getFieldProps('password')}
-                error={signupForm.errors.password}
               />
               <Input
                 type="password"
                 label="Confirm Password"
                 placeholder="Confirm your password"
+                value={confirmPassword}
+                onChange={(e) => setConfirmPassword(e.target.value)}
                 required
-                {...signupForm.getFieldProps('confirmPassword')}
-                error={signupForm.errors.confirmPassword}
               />
+              
+              <div className="flex items-start">
+                <input type="checkbox" className="mr-2 mt-1 rounded border-gray-300" required />
+                <span className="text-sm text-gray-600">
+                  I agree to the <a href="#" className="text-blue-600 hover:text-blue-800">Terms of Service</a> and <a href="#" className="text-blue-600 hover:text-blue-800">Privacy Policy</a>
+                </span>
+              </div>
               
               <Button 
                 type="submit" 
                 fullWidth 
                 size="large"
-                loading={signupForm.isSubmitting}
+                loading={isSubmitting}
               >
-                Create Account
+                {isSubmitting ? 'Creating Account...' : 'Create Account'}
               </Button>
             </form>
           )}
@@ -370,13 +309,23 @@ export default function ClientPortal() {
                 type="button"
                 onClick={() => {
                   setIsLogin(!isLogin);
-                  loginForm.reset();
-                  signupForm.reset();
+                  setShowError(false);
+                  setEmail('');
+                  setPassword('');
+                  setCompanyName('');
+                  setConfirmPassword('');
                 }}
                 className="ml-1 text-blue-600 hover:text-blue-800 transition-colors font-medium"
               >
                 {isLogin ? "Sign up" : "Sign in"}
               </button>
+            </p>
+          </div>
+
+          {/* Additional Links */}
+          <div className="text-center pt-4">
+            <p className="text-xs text-gray-500">
+              Need help? <a href="/contact" className="text-blue-600 hover:text-blue-800">Contact Support</a>
             </p>
           </div>
         </Card>

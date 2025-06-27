@@ -80,10 +80,13 @@ export default function Navigation({ currentPage = 'home' }: NavigationProps) {
           </div>
 
           {/* Submit Sample Button - Right Side */}
-          <div className="flex ml-auto w-64 justify-end">
+          <div className="flex ml-auto justify-end">
             <Link 
               href="/submit-sample" 
-              className={currentPage === 'submit-sample' ? "apple-button opacity-50 cursor-not-allowed" : "apple-button"}
+              className={currentPage === 'submit-sample' 
+                ? "bg-blue-500 text-white px-4 py-1.5 rounded-full text-xs font-medium opacity-50 cursor-not-allowed transition-all duration-150" 
+                : "bg-blue-500 hover:bg-blue-600 text-white px-4 py-1.5 rounded-full text-xs font-medium transition-all duration-150 hover:-translate-y-0.5 hover:shadow-lg"
+              }
             >
               Submit Sample
             </Link>

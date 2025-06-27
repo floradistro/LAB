@@ -214,15 +214,15 @@ export default function Contact() {
               <div>
                 <h3 className="font-semibold text-gray-900 mb-2">How much sample material is needed?</h3>
                 <p className="text-gray-600">
-                  Typically 2-5 grams for flower, 1-2 grams for concentrates, and 1-2 units for edibles. 
+                  Typically 1-3.5 grams for flower, 1-2 grams for concentrates, and 1-2 units for edibles. 
                   Contact us for specific requirements.
                 </p>
               </div>
               <div>
-                <h3 className="font-semibold text-gray-900 mb-2">Are you state certified?</h3>
+                <h3 className="font-semibold text-gray-900 mb-2">Do you offer bulk testing discounts?</h3>
                 <p className="text-gray-600">
-                  Yes, we maintain all required state certifications and follow ISO/IEC 17025 standards 
-                  for laboratory testing.
+                  Yes, we provide volume discounts for clients submitting 10+ samples per month. 
+                  Contact us to discuss custom pricing packages for your operation.
                 </p>
               </div>
             </div>
