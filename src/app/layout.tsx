@@ -29,7 +29,7 @@ export const metadata: Metadata = {
   },
   openGraph: {
     title: "Quantix Analytics | Premier Hemp & Cannabis Testing Laboratory",
-    description: "Leading hemp and cannabis testing laboratory providing accurate, reliable analytical testing services. ISO/IEC 17025 accredited.",
+    description: "Leading hemp and cannabis testing laboratory providing accurate, reliable analytical testing services. Fast turnaround, precise results.",
     url: 'https://quantixanalytics.com',
     siteName: 'Quantix Analytics',
     images: [
@@ -38,6 +38,7 @@ export const metadata: Metadata = {
         width: 1200,
         height: 630,
         alt: 'Quantix Analytics - Hemp & Cannabis Testing Laboratory',
+        type: 'image/png',
       }
     ],
     locale: 'en_US',
@@ -49,6 +50,7 @@ export const metadata: Metadata = {
     description: "Leading analytical testing laboratory for hemp and cannabis. Accurate results you can trust.",
     images: ['/quantixlogo.png'],
     creator: '@quantixanalytics',
+    site: '@quantixanalytics',
   },
   robots: {
     index: true,
@@ -63,21 +65,35 @@ export const metadata: Metadata = {
   },
   icons: {
     icon: [
-      { url: '/quantixlogo.png' },
-      { url: '/quantixlogo.png', sizes: '16x16', type: 'image/png' },
-      { url: '/quantixlogo.png', sizes: '32x32', type: 'image/png' },
+      { url: '/favicon.ico' },
+      { url: '/favicon-16x16.png', sizes: '16x16', type: 'image/png' },
+      { url: '/favicon-32x32.png', sizes: '32x32', type: 'image/png' },
     ],
     apple: [
-      { url: '/quantixlogo.png' },
+      { url: '/apple-touch-icon.png', sizes: '180x180', type: 'image/png' },
     ],
     other: [
       {
         rel: 'mask-icon',
         url: '/quantixlogo.png',
+        color: '#007aff',
       },
     ],
   },
   manifest: '/manifest.json',
+  viewport: {
+    width: 'device-width',
+    initialScale: 1,
+    maximumScale: 1,
+  },
+  themeColor: [
+    { media: '(prefers-color-scheme: light)', color: '#ffffff' },
+    { media: '(prefers-color-scheme: dark)', color: '#000000' },
+  ],
+  other: {
+    'msapplication-TileColor': '#007aff',
+    'msapplication-config': '/browserconfig.xml',
+  },
 };
 
 export default function RootLayout({
