@@ -107,7 +107,7 @@ export default function ClientPortal() {
                 </div>
                 <h3 className="text-lg font-semibold text-gray-900">Check your email</h3>
                 <p className="text-gray-600 text-sm">
-                  We've sent password reset instructions to <strong>{resetEmail}</strong>
+                  We&apos;ve sent password reset instructions to <strong>{resetEmail}</strong>
                 </p>
                 <p className="text-gray-500 text-xs">
                   Didn&apos;t receive the email? Check your spam folder or try again in a few minutes.
