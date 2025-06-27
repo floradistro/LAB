@@ -110,7 +110,7 @@ export default function ClientPortal() {
                   We've sent password reset instructions to <strong>{resetEmail}</strong>
                 </p>
                 <p className="text-gray-500 text-xs">
-                  Didn't receive the email? Check your spam folder or try again in a few minutes.
+                  Didn&apos;t receive the email? Check your spam folder or try again in a few minutes.
                 </p>
                 <Button 
                   fullWidth 
@@ -304,7 +304,7 @@ export default function ClientPortal() {
           {/* Toggle Form */}
           <div className="text-center pt-6 border-t border-gray-100 mt-6">
             <p className="text-sm text-gray-600">
-              {isLogin ? "Don't have an account?" : "Already have an account?"}
+              {isLogin ? "Don&apos;t have an account?" : "Already have an account?"}
               <button
                 type="button"
                 onClick={() => {
