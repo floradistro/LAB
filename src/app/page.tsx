@@ -31,7 +31,7 @@ export default function Home() {
             {/* Tagline */}
             <p className="text-xl md:text-2xl text-gray-600 mb-12 max-w-3xl mx-auto leading-relaxed">
               Full-panel cannabis testing with 24–48 hour turnaround.<br />
-              <span className="text-gray-500">Trusted by growers, brands, and distributors across the cannabis industry.</span>
+              <span className="text-gray-500">Trusted by growers, brands, and distributors across the east coast cannabis industry.</span>
             </p>
             
                          {/* CTA Buttons */}
